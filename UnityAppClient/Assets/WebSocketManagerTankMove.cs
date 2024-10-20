@@ -3,7 +3,7 @@ using NativeWebSocket;
 using UnityEngine.InputSystem;
 using System;
 
-public class WebSocketManager : MonoBehaviour
+public class WebSocketManagerTankMove : MonoBehaviour
 {
     private WebSocket websocket;
     [SerializeField] private InputActionReference moveActionToUse;
@@ -15,12 +15,12 @@ public class WebSocketManager : MonoBehaviour
 
     void Update() {
         Vector2 moveDirection=moveActionToUse.action.ReadValue<Vector2>();
-        SendInput($"aim {moveDirection.x} {moveDirection.y}");
+        SendInput($"move {moveDirection.x} {moveDirection.y}");
     }
 
-    public void FireControl()
+    public void ReverseControl()
     {
-        SendInput("fire");
+        SendInput("reverse");
     }
 
     public async void SendInput(string action) {
