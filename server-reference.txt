@@ -1,0 +1,32 @@
+Server->Clients
+All messages displayed as "Player ID action: MESSAGE"
+MESSAGE should include UUID if it is intended for a specific Clients
+Player 99 is the host client
+
+Clients->Server
+First connection message is "uuid UUID" for AppClients
+First connection message is "host" for HostClient
+Server maps UUID to a simple player ID (1, 2, 3, 4... or 99 for host)
+
+MESSAGES:
+
+AppClient->Server->HostClient
+"aim 0 0" -> tells the host that the client of ID is sending an aiming Vector2
+"move 0 0" -> tells the host that the client of ID is sending a moving Vector2
+
+Routing Messages:
+
+HostClient->Server->AppClient
+"uuid d" -> assigns the client of uuid to driver controller
+"uuid g" -> assigns the client of uuid to gunner controller.
+"teamtanks" -> assigns the client to the team tanks router
+
+ROUTING STRUCTURE:
+
+HostClient:
+MainRouter -> The lobby of the game. Connections establish. Routes to a minigame router when game starts.
+TeamTanksRouter -> The lobby of the minigame "TeamTanks" host randomly assigns players in to teams and roles, then informs the appclients of their roles.
+
+AppClient:
+MainRouter -> The initial connection of the AppClient. Checks for messages from the host to move to a new router.
+TeamTanksRouter -> Waits for role message then routes to that controller.
