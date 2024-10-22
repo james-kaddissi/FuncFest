@@ -3,77 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using NativeWebSocket;
 
 public class TeamTanksConnection : MonoBehaviour
 {
-  WebSocket websocket;
   public TankMovement tankMovement;
   public TankAiming tankAiming;
-  bool sentHost = false;
-  async void Start()
+  private WebSocketRouter webSocketRouter;
+
+  void Start()
   {
-    websocket = new WebSocket("ws://192.168.1.156:6789");
-
-    websocket.OnOpen += () =>
-    {
-      Debug.Log("Connection open!");
-    };
-
-    websocket.OnError += (e) =>
-    {
-      Debug.Log("Error! " + e);
-    };
-
-    websocket.OnClose += (e) =>
-    {
-      Debug.Log("Connection closed!");
-    };
-
-    websocket.OnMessage += (bytes) =>
-    {
-      Debug.Log("OnMessage!");
-      var message = System.Text.Encoding.UTF8.GetString(bytes);
-      Debug.Log(message);
-      ProcessMessage(message);
-    };
-
-
-    await websocket.Connect();
+      webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
+      if (webSocketRouter == null)
+      {
+          Debug.LogWarning("WebSocketRouter not found in scene. Ensure it is present.");
+      }
   }
 
-  void Update()
-  {
-    #if !UNITY_WEBGL || UNITY_EDITOR
-      websocket.DispatchMessageQueue();
-    #endif
-
-    if (!sentHost)
-    {
-      Invoke("sendHost", 1);
-      sentHost = true;
-    }
-  }
-
-  void sendHost()
-  {
-    SendWebSocketMessage("host");
-  }
-
-  public async void SendWebSocketMessage(string message)
-  {
-    if (websocket.State == WebSocketState.Open)
-    {
-      await websocket.SendText(message);
-    }
-  }
-
-  private async void OnApplicationQuit()
-  {
-    await websocket.Close();
-  }
-
-  private void ProcessMessage(string message)
+  public void ProcessMessage(string message)
   {
       if (message.StartsWith("Player") && message.Contains("move"))
       {
