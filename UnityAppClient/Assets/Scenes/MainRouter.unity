@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 2094862012}
   - component: {fileID: 2094862013}
   m_Layer: 0
-  m_Name: WebSocketManagerRouter
+  m_Name: WebSocketRouter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
