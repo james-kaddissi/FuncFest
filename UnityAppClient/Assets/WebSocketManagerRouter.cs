@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NativeWebSocket;
+using UnityEngine.SceneManagement;
 
 public class WebSocketManagerRouter : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class WebSocketManagerRouter : MonoBehaviour
     void sendUUID() {
         string uuid = PlayerPrefs.GetString("DeviceUUID");
         SendInput($"uuid {uuid}");
+        SceneManager.LoadScene("TankMoveController");
     }
 
     public async void SendInput(string action) {

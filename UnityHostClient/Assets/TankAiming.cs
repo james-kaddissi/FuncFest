@@ -7,6 +7,7 @@ public class TankAiming : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
     public Transform canvasTransform;
+    public Transform projectileSpawn;
 
     public void AimTank(Vector2 input) {
         if (input != Vector2.zero) 
@@ -17,7 +18,7 @@ public class TankAiming : MonoBehaviour
     }
 
     public void Fire() {
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation, canvasTransform);
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawn.position, transform.rotation, canvasTransform);
         
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         

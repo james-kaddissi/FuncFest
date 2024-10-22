@@ -39,7 +39,7 @@ async def echo(websocket, path):
                         if client != websocket:
                             await client.send(f"Player {player_id} action: {message}")
                 else:
-                    print("Player not connected yet")
+                    pass
     finally:
         if player_id is not None:
             del connected_clients[websocket]

@@ -10,7 +10,7 @@ public class TeamTanksConnection : MonoBehaviour
   WebSocket websocket;
   public TankMovement tankMovement;
   public TankAiming tankAiming;
-
+  bool sentHost = false;
   async void Start()
   {
     websocket = new WebSocket("ws://192.168.1.156:6789");
@@ -47,13 +47,24 @@ public class TeamTanksConnection : MonoBehaviour
     #if !UNITY_WEBGL || UNITY_EDITOR
       websocket.DispatchMessageQueue();
     #endif
+
+    if (!sentHost)
+    {
+      Invoke("sendHost", 1);
+      sentHost = true;
+    }
   }
 
-  public async void SendWebSocketMessage()
+  void sendHost()
+  {
+    SendWebSocketMessage("host");
+  }
+
+  public async void SendWebSocketMessage(string message)
   {
     if (websocket.State == WebSocketState.Open)
     {
-      await websocket.SendText("plain text message");
+      await websocket.SendText(message);
     }
   }
 
