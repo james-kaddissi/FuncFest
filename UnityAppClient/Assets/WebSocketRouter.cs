@@ -39,7 +39,7 @@ public class WebSocketRouter : MonoBehaviour
         websocket.OnMessage += (bytes) => {
             var message = System.Text.Encoding.UTF8.GetString(bytes);
             Debug.Log($"Received: {message}");
-
+            HandleMessage(message);
             var processors = FindObjectsOfType<MonoBehaviour>();
             foreach (var processor in processors) {
                 MethodInfo method = processor.GetType().GetMethod("ProcessMessage", BindingFlags.Public | BindingFlags.Instance);
@@ -61,10 +61,21 @@ public class WebSocketRouter : MonoBehaviour
         }
     }
 
+    public void HandleMessage(string message) {
+        if (message.StartsWith("Player 99 action: ")) {
+            string action = message.Substring(18);
+            if (action.StartsWith("scene ")) {
+                string sceneName = action.Substring(6);
+                RouteToScene(sceneName);
+            }
+        }
+        
+    }
+
+
     void sendUUID() {
         string uuid = PlayerPrefs.GetString("DeviceUUID");
         SendInput($"uuid {uuid}");
-        SceneManager.LoadScene("TankMoveController");
     }
 
     public async void SendInput(string action) {
@@ -75,6 +86,5 @@ public class WebSocketRouter : MonoBehaviour
 
     public void RouteToScene(string scene) {
         SceneManager.LoadScene(scene);
-        SendInput($"scene {scene}");
     }
 }

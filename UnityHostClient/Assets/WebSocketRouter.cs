@@ -12,6 +12,8 @@ public class WebSocketRouter : MonoBehaviour
     private WebSocket websocket;
     private bool sentHost = false;
 
+    public Dictionary<int, string> connectedIDs = new Dictionary<int, string>();
+
     void Awake() {
         if (instance == null) {
             instance = this;
@@ -39,7 +41,7 @@ public class WebSocketRouter : MonoBehaviour
         websocket.OnMessage += (bytes) => {
             var message = System.Text.Encoding.UTF8.GetString(bytes);
             Debug.Log($"Received: {message}");
-
+            HandleMessage(message);
             var processors = FindObjectsOfType<MonoBehaviour>();
             foreach (var processor in processors) {
                 MethodInfo method = processor.GetType().GetMethod("ProcessMessage", BindingFlags.Public | BindingFlags.Instance);
@@ -61,9 +63,22 @@ public class WebSocketRouter : MonoBehaviour
         }
     }
 
+    void HandleMessage(string message) {
+        if(message.StartsWith("Connected ")) {
+            string[] parts = message.Substring(10).Split(' ');
+            if(parts.Length == 2) {
+                int id = int.Parse(parts[0]);
+                string uuid = parts[1];  
+                connectedIDs[id] = uuid;
+                Debug.Log($"Connected ID: {id}, UUID: {uuid}");
+                RouteToScene("TeamTanks");
+            }
+            Debug.Log("HERE");
+        }
+    }
+
     void sendHost() {
         SendInput($"host");
-        RouteToScene("TeamTanks");
     }
 
     public async void SendInput(string action) {
