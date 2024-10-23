@@ -50,8 +50,8 @@ async def echo(websocket, path):
             print(f"Player {player_id} disconnected")
 
 async def start_server():
-    server = await websockets.serve(echo, "192.168.1.156", 6789)
-    print("WebSocket server started on ws://192.168.1.156:6789")
+    server = await websockets.serve(echo, "10.156.97.70", 6789)
+    print("WebSocket server started on ws://10.156.97.70:6789")
     await server.wait_closed()
 
 if __name__ == "__main__":

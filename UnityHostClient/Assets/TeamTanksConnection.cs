@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class TeamTanksConnection : MonoBehaviour
 {
-	public TankMovement tankMovement;
-	public TankAiming tankAiming;
+	private TankMovement tankMovement;
+	private TankAiming tankAiming;
 	private WebSocketRouter webSocketRouter;
+	Dictionary<int, int> idTeamMap = new Dictionary<int, int>();
 
 	void Start()
 	{
@@ -17,42 +18,73 @@ public class TeamTanksConnection : MonoBehaviour
 		{
 			Debug.LogWarning("WebSocketRouter not found in scene. Ensure it is present.");
 		}
-		Invoke("BeginGame", 5);
+		BeginGame();
 	}
 
 	public void ProcessMessage(string message)
 	{
-		if (message.StartsWith("Player") && message.Contains("move"))
+		if (message.StartsWith("Player") && message.Contains("action:") && (message.Contains("move") || message.Contains("aim") || message.Contains("fire")))
 		{
-			string[] parts = message.Replace("action:", "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			if (parts.Length >= 4 && float.TryParse(parts[3], out float x) && float.TryParse(parts[4], out float y))
+			string[] parts = message.Split(' ');
+			if (parts.Length >= 2 && int.TryParse(parts[1], out int playerId))
 			{
-				Vector2 input = new Vector2(x, y);
-				tankMovement.MoveTank(input);
+				if (idTeamMap.TryGetValue(playerId, out int teamNumber))
+				{
+					GameObject playerTank = GameObject.Find($"TankPlayer{teamNumber}");
+					if (playerTank != null)
+					{
+						tankMovement = playerTank.GetComponent<TankMovement>();
+						tankAiming = playerTank.GetComponentInChildren<TankAiming>();
+					}
+					else
+					{
+						Debug.LogWarning($"TankPlayer{playerId} not found in the scene.");
+						return;
+					}
+					if (message.Contains("move"))
+					{
+						string[] moveParts = message.Split(' ');
+						if (moveParts.Length >= 6 && float.TryParse(moveParts[4], out float x) && float.TryParse(moveParts[5], out float y))
+						{
+							Vector2 input = new Vector2(x, y);
+							tankMovement.MoveTank(input);
+						}
+						else
+						{
+							Debug.LogWarning("Failed to parse move values. Ensure the message format is correct.");
+						}
+					}
+					else if (message.Contains("aim"))
+					{
+						string[] aimParts = message.Split(' ');
+						if (aimParts.Length >= 6 && float.TryParse(aimParts[4], out float x) && float.TryParse(aimParts[5], out float y))
+						{
+							Vector2 input = new Vector2(x, y);
+							tankAiming.AimTank(input);
+						}
+						else
+						{
+							Debug.LogWarning("Failed to parse aim values. Ensure the message format is correct.");
+						}
+					}
+					else if (message.Contains("fire"))
+					{
+						tankAiming.Fire();
+					}
+				}
+				else
+				{
+					Debug.Log(idTeamMap.Count);
+					Debug.LogWarning($"Team number not found for player ID: {playerId}");
+				}
 			}
 			else
 			{
-				Debug.LogWarning("Failed to parse move values. Ensure the message format is correct.");
+				Debug.LogWarning("Failed to parse player ID. Ensure the message format is correct.");
 			}
-		}
-		if (message.StartsWith("Player") && message.Contains("aim"))
-		{
-			string[] parts = message.Replace("action:", "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			if (parts.Length >= 4 && float.TryParse(parts[3], out float x) && float.TryParse(parts[4], out float y))
-			{
-				Vector2 input = new Vector2(x, y);
-				tankAiming.AimTank(input);
-			}
-			else
-			{
-				Debug.LogWarning("Failed to parse move values. Ensure the message format is correct.");
-			}
-		}
-		if (message.StartsWith("Player") && message.Contains("fire"))
-		{
-			tankAiming.Fire();
 		}
 	}
+
 
 	void BeginGame()
 	{
@@ -78,6 +110,7 @@ public class TeamTanksConnection : MonoBehaviour
 				if (!usedCombinations.Contains(combination))
 				{
 					usedCombinations.Add(combination);
+					idTeamMap[id] = teamNumber;
 					break;
 				}
 			}
