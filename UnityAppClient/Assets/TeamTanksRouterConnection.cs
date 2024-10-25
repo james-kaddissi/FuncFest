@@ -27,9 +27,11 @@ public class TeamTanksRouterConnection : MonoBehaviour
                 // This action is for us
                 if(parts[1] == "d") {
                     // assign to driver
+                    Debug.Log(parts[1]);
                     webSocketRouter.RouteToScene("TankMoveController");
                 } else if (parts[1] == "g") {
                     // assign to gunner
+                    Debug.Log(parts[1]);
                     webSocketRouter.RouteToScene("TankGunController");
                 }
             }
