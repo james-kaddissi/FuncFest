@@ -11,7 +11,7 @@ public class Connection : MonoBehaviour
 
   async void Start()
   {
-    websocket = new WebSocket("ws://10.156.97.70:6789");
+    websocket = new WebSocket("ws://192.168.1.156:6789");
 
     websocket.OnOpen += () =>
     {

@@ -24,7 +24,7 @@ public class WebSocketRouter : MonoBehaviour
     }
 
     async void Start() {
-        websocket = new WebSocket("ws://10.156.97.70:6789");
+        websocket = new WebSocket("ws://192.168.1.156:6789");
 
         websocket.OnOpen += () => {
             Debug.Log("Connection open!");
@@ -71,7 +71,7 @@ public class WebSocketRouter : MonoBehaviour
                 string uuid = parts[1];  
                 connectedIDs[id] = uuid;
                 Debug.Log($"Connected ID: {id}, UUID: {uuid}");
-                RouteToScene("TeamTanks");
+                // RouteToScene("TeamTanks");
             }
             Debug.Log("HERE");
         }
