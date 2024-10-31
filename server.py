@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import threading
+import socket
 
 player_id_counter = 1
 uuid_id_map = {}
@@ -49,10 +50,22 @@ async def echo(websocket, path):
             del connected_clients[websocket]
             print(f"Player {player_id} disconnected")
 
+def get_ip_address():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+    finally:
+        s.close()
+    return ip_address
+
 async def start_server():
-    server = await websockets.serve(echo, "192.168.1.156", 6789)
-    print("WebSocket server started on ws://192.168.1.156:6789")
+    ip = get_ip_address()
+    server = await websockets.serve(echo, get_ip_address(), 6789)
+    print(f"WebSocket server started on ws://{ip}:6789")
     await server.wait_closed()
+
+
 
 if __name__ == "__main__":
     connected_clients = {}
