@@ -152,5 +152,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1260ced31698c1440999799eca32d153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankExplosionEffect: {fileID: 8038344524183138613, guid: 0277167a12290af47801444830a2be97, type: 3}
-  bulletExplosionEffect: {fileID: 4794043405585894037, guid: 37138c0c33167b04fa1fb90b7f5a794f, type: 3}
+  tankExplosionEffect: {fileID: 2071007700283728524, guid: 42816951a1ece4186bbcdf67ae305143, type: 3}
+  bulletExplosionEffect: {fileID: 2071007700283728524, guid: 42816951a1ece4186bbcdf67ae305143, type: 3}
