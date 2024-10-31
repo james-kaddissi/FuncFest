@@ -4,6 +4,8 @@ using UnityEngine;
 using NativeWebSocket;
 using UnityEngine.SceneManagement;
 using System.Reflection;
+using System.Net;
+using System.Net.Sockets;
 
 public class WebSocketRouter : MonoBehaviour
 {
@@ -23,8 +25,25 @@ public class WebSocketRouter : MonoBehaviour
         }
     }
 
+    string GetIPAddress() {
+        string localIP = "";
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIP = ip.ToString();
+                break;
+            }
+        }
+        
+        return localIP;
+    }
+
     async void Start() {
-        websocket = new WebSocket("ws://192.168.1.156:6789");
+        string ip = GetIPAddress();
+        websocket = new WebSocket($"ws://{ip}:6789");
 
         websocket.OnOpen += () => {
             Debug.Log("Connection open!");
