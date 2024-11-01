@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveActionToUse: {fileID: 7530753517085857166, guid: c058bba7c04fb434a91aed4f5d44f78d, type: 3}
+  fireText: {fileID: 6366079169741376744}
 --- !u!4 &821707986
 Transform:
   m_ObjectHideFlags: 0

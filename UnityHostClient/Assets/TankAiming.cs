@@ -19,7 +19,10 @@ public class TankAiming : MonoBehaviour
 
     public void Fire() {
         GameObject projectile = Instantiate(projectilePrefab, projectileSpawn.position, transform.rotation, canvasTransform);
-        
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null) {
+            projectileScript.Initialize(transform.parent.gameObject);
+        }
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         
         if (rb != null)

@@ -119,5 +119,12 @@ public class TeamTanksConnection : MonoBehaviour
 			
 			Debug.Log($"Assigned ID: {id}, UUID: {uuid}, Role: {role}");
 		}
+		Invoke("speedIncrease", 10);
+	}
+	void speedIncrease()
+	{
+		tankMovement.moveSpeed += 2f;
+		tankAiming.projectileSpeed += 20f;
+		Invoke("speedIncrease", 10);
 	}
 }

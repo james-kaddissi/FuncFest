@@ -153,4 +153,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankExplosionEffect: {fileID: 2071007700283728524, guid: 42816951a1ece4186bbcdf67ae305143, type: 3}
-  bulletExplosionEffect: {fileID: 2071007700283728524, guid: 42816951a1ece4186bbcdf67ae305143, type: 3}
+  bulletExplosionEffect: {fileID: 7420826731272744353, guid: 55e0c287b6f436d40aef58bbc182fbcf, type: 3}
