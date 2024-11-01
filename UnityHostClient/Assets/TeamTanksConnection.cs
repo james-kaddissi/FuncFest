@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class TeamTanksConnection : MonoBehaviour
 {
@@ -10,6 +10,9 @@ public class TeamTanksConnection : MonoBehaviour
 	private TankAiming tankAiming;
 	private WebSocketRouter webSocketRouter;
 	Dictionary<int, int> idTeamMap = new Dictionary<int, int>();
+	int livingPlayers = 4;
+	private List<int> livingPlayersTeam = new List<int> { 1, 2, 3, 4 };
+	[SerializeField] private TextMeshProUGUI gameOverText;
 
 	void Start()
 	{
@@ -121,6 +124,15 @@ public class TeamTanksConnection : MonoBehaviour
 		}
 		Invoke("speedIncrease", 10);
 	}
+
+	public void PlayerDeath(int player) {
+		livingPlayers--;
+		livingPlayersTeam.Remove(player);
+		if (livingPlayers <= 1) {
+			gameOverText.text = $"Team {livingPlayersTeam[0]} wins!";
+		}
+	}
+
 	void speedIncrease()
 	{
 		tankMovement.moveSpeed += 2f;
