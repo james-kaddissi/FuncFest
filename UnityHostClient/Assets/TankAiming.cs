@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SmoothShakeFree;
 
 public class TankAiming : MonoBehaviour
 {
@@ -30,5 +31,6 @@ public class TankAiming : MonoBehaviour
             Vector2 direction = transform.up;
             rb.velocity = direction * projectileSpeed;
         }
+        GameObject.Find("ShakeHolder").GetComponent<SmoothShake>().StartShake();
     }
 }
