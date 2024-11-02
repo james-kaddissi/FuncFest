@@ -4,7 +4,8 @@ import threading
 import socket
 
 player_id_counter = 1
-uuid_id_map = {}
+uuid_id_map = {}
+last_messages = {}
 
 async def echo(websocket, path):
     global player_id_counter
@@ -36,8 +37,11 @@ async def echo(websocket, path):
                 connected_clients[websocket] = player_id
                 print("Host connected")
             else:
-                if player_id is not None:
-                    print(f"Received message from Player {player_id}: {message}")
+                if player_id is not None:
+                    last_message = last_messages.get(player_id)
+                    if last_message != message:
+                        print(f"Received message from Player {player_id}: {message}")
+                        last_messages[player_id] = message
 
                     await websocket.send(f"ID: {player_id} sent: {message}")
                     for client in connected_clients:
