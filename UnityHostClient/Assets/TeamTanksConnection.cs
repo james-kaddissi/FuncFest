@@ -129,8 +129,19 @@ public class TeamTanksConnection : MonoBehaviour
 		livingPlayers--;
 		livingPlayersTeam.Remove(player);
 		if (livingPlayers <= 1) {
-			gameOverText.text = $"Team {livingPlayersTeam[0]} wins!";
+			processGameOver();
 		}
+	}
+
+	void processGameOver() {
+		int winningTeamID = livingPlayersTeam[0];
+
+		foreach (var id in idTeamMap) {
+			if (id.Value == winningTeamID) {
+				webSocketRouter.AddScore(id.Key, 1000);
+			}
+		}
+		webSocketRouter.RouteToScene("MainRouter");
 	}
 
 	void speedIncrease()

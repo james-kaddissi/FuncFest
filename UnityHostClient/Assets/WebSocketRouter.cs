@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Reflection;
 using System.Net;
 using System.Net.Sockets;
+using TMPro;
 
 public class WebSocketRouter : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class WebSocketRouter : MonoBehaviour
     private bool sentHost = false;
 
     public Dictionary<int, string> connectedIDs = new Dictionary<int, string>();
+    public Dictionary<int, int> scores = new Dictionary<int, int>();
+
+    private TextMeshProUGUI scoreText;
 
     void Awake() {
         if (instance == null) {
@@ -80,6 +84,15 @@ public class WebSocketRouter : MonoBehaviour
             Invoke("sendHost", 1);
             sentHost = true;
         }
+
+        if (scoreText == null) {
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+        } else {
+            scoreText.text = "";
+            foreach (var entry in scores) {
+                scoreText.text += $"ID: {entry.Key}, Score: {entry.Value}\n";
+            }
+        }
     }
 
     void HandleMessage(string message) {
@@ -89,6 +102,7 @@ public class WebSocketRouter : MonoBehaviour
                 int id = int.Parse(parts[0]);
                 string uuid = parts[1];  
                 connectedIDs[id] = uuid;
+                scores[id] = 0;
                 Debug.Log($"Connected ID: {id}, UUID: {uuid}");
                 // RouteToScene("TeamTanks");
             }
@@ -109,5 +123,9 @@ public class WebSocketRouter : MonoBehaviour
     public void RouteToScene(string scene) {
         SceneManager.LoadScene(scene);
         SendInput($"scene {scene}");
+    }
+
+    public void AddScore(int id, int score) {
+        scores[id] += score;
     }
 }
