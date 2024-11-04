@@ -13,6 +13,10 @@ public class TeamTanksConnection : MonoBehaviour
 	int livingPlayers = 4;
 	private List<int> livingPlayersTeam = new List<int> { 1, 2, 3, 4 };
 	[SerializeField] private TextMeshProUGUI gameOverText;
+	[SerializeField] private TextMeshProUGUI countdownText;
+	private bool gameStarted = false;
+	public AudioSource audioSource;
+	private AudioSource thisAudioSource;
 
 	void Start()
 	{
@@ -21,12 +25,39 @@ public class TeamTanksConnection : MonoBehaviour
 		{
 			Debug.LogWarning("WebSocketRouter not found in scene. Ensure it is present.");
 		}
-		BeginGame();
+		Countdown();
+		thisAudioSource = GetComponent<AudioSource>();
+		audioSource = GameObject.Find("Canvas").GetComponent<AudioSource>();
+	}
+
+	void Countdown() {
+		countdownText.text = "5";
+		Invoke("Countdown4", 1);
+	}
+
+	void Countdown4() {
+		countdownText.text = "4";
+		Invoke("Countdown3", 1);
+	}
+
+	void Countdown3() {
+		countdownText.text = "3";
+		Invoke("Countdown2", 1);
+	}
+
+	void Countdown2() {
+		countdownText.text = "2";
+		Invoke("Countdown1", 1);
+	}
+
+	void Countdown1() {
+		countdownText.text = "1";
+		Invoke("BeginGame", 1);
 	}
 
 	public void ProcessMessage(string message)
 	{
-		if (message.StartsWith("Player") && message.Contains("action:") && (message.Contains("move") || message.Contains("aim") || message.Contains("fire")))
+		if (gameStarted && message.StartsWith("Player") && message.Contains("action:") && (message.Contains("move") || message.Contains("aim") || message.Contains("fire") || message.Contains("reverse")))
 		{
 			string[] parts = message.Split(' ');
 			if (parts.Length >= 2 && int.TryParse(parts[1], out int playerId))
@@ -74,6 +105,9 @@ public class TeamTanksConnection : MonoBehaviour
 					{
 						tankAiming.Fire();
 					}
+					else if (message.Contains("reverse")){
+						tankMovement.Reverse();
+					}
 				}
 				else
 				{
@@ -91,11 +125,18 @@ public class TeamTanksConnection : MonoBehaviour
 
 	void BeginGame()
 	{
+		countdownText.text = "";
+		thisAudioSource.Stop();
+		audioSource.Play();
 		Debug.Log("Beginning game");
 		Dictionary<int, string> ids = webSocketRouter.connectedIDs;
 		Debug.Log(ids.Count);
 		int length = ids.Count;
 		HashSet<string> usedCombinations = new HashSet<string>();
+
+		Dictionary<int, int> driverIds = new Dictionary<int, int>();
+    	Dictionary<int, int> gunnerIds = new Dictionary<int, int>();
+
 		foreach (var KP in ids)
 		{
 			int id = KP.Key;
@@ -114,6 +155,16 @@ public class TeamTanksConnection : MonoBehaviour
 				{
 					usedCombinations.Add(combination);
 					idTeamMap[id] = teamNumber;
+
+					if (role == "d")
+					{
+						driverIds[teamNumber] = id;
+					}
+					else
+					{
+						gunnerIds[teamNumber] = id;
+					}
+
 					break;
 				}
 			}
@@ -122,7 +173,32 @@ public class TeamTanksConnection : MonoBehaviour
 			
 			Debug.Log($"Assigned ID: {id}, UUID: {uuid}, Role: {role}");
 		}
+		for (int teamNumber = 1; teamNumber <= 4; teamNumber++)
+		{
+			int driverId = driverIds.ContainsKey(teamNumber) ? driverIds[teamNumber] : -1;
+			int gunnerId = gunnerIds.ContainsKey(teamNumber) ? gunnerIds[teamNumber] : -1;
+
+			GameObject tank = GameObject.Find($"TankPlayer{teamNumber}");
+			if (tank != null)
+			{
+				var setLabels = tank.GetComponent<SetLabels>();
+				if (setLabels != null)
+				{
+					setLabels.SetText(driverId, gunnerId);
+				}
+			}
+		}
+		gameStarted = true;
+		Invoke("PanelOff", 10);
 		Invoke("speedIncrease", 10);
+	}
+
+	void PanelOff()
+	{
+		GameObject.Find("TankPlayer1").GetComponent<SetLabels>().PanelOff();
+		GameObject.Find("TankPlayer2").GetComponent<SetLabels>().PanelOff();
+		GameObject.Find("TankPlayer3").GetComponent<SetLabels>().PanelOff();
+		GameObject.Find("TankPlayer4").GetComponent<SetLabels>().PanelOff();
 	}
 
 	public void PlayerDeath(int player) {

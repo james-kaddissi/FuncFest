@@ -21,6 +21,6 @@ public class WebSocketManagerTankMove : MonoBehaviour
 
     public void ReverseControl()
     {
-        webSocketRouter.SendInput("reverse");
+        webSocketRouter.SendInput("reverse me");
     }
 }

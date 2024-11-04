@@ -9,6 +9,7 @@ public class TankAiming : MonoBehaviour
     public float projectileSpeed = 10f;
     public Transform canvasTransform;
     public Transform projectileSpawn;
+    public GameObject tankFireEffect;
 
     public void AimTank(Vector2 input) {
         if (input != Vector2.zero) 
@@ -20,6 +21,8 @@ public class TankAiming : MonoBehaviour
 
     public void Fire() {
         GameObject projectile = Instantiate(projectilePrefab, projectileSpawn.position, transform.rotation, canvasTransform);
+        Quaternion fireEffectRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
+        Instantiate(tankFireEffect, projectileSpawn.position, fireEffectRotation, canvasTransform);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null) {
             projectileScript.Initialize(transform.parent.gameObject);
@@ -32,5 +35,6 @@ public class TankAiming : MonoBehaviour
             rb.velocity = direction * projectileSpeed;
         }
         GameObject.Find("ShakeHolder").GetComponent<SmoothShake>().StartShake();
+        this.GetComponent<AudioSource>().Play();
     }
 }
