@@ -195,14 +195,15 @@ public class TeamTanksConnection : MonoBehaviour
 		}
 		gameStarted = true;
 		Invoke("PanelOff", 10);
-		Invoke("fourteen", 1);
 		TimerStart();
 	}
 
 	void TimerStart() {
         timeElapsed = 0; 
         timerText.text = "0:00";
+		int countodwnStart = 15;
         StartCoroutine(TimerIncrement());
+		StartCoroutine(RoundCountdown(countodwnStart));
     }
 
     System.Collections.IEnumerator TimerIncrement() {
@@ -245,103 +246,29 @@ public class TeamTanksConnection : MonoBehaviour
 	void speedIncrease()
 	{
 		GameObject.Find("TankPlayer1").GetComponent<TankMovement>().moveSpeed += 2f;
+		GameObject.Find("TankPlayer1").GetComponent<TankMovement>().rotationSpeed += 50f;
 		GameObject.Find("TankPlayer1").GetComponentInChildren<TankAiming>().projectileSpeed += 20f;
+		GameObject.Find("TankPlayer2").GetComponent<TankMovement>().moveSpeed += 2f;
+		GameObject.Find("TankPlayer2").GetComponent<TankMovement>().rotationSpeed += 50f;
+		GameObject.Find("TankPlayer2").GetComponentInChildren<TankAiming>().projectileSpeed += 20f;
+		GameObject.Find("TankPlayer3").GetComponent<TankMovement>().moveSpeed += 2f;
+		GameObject.Find("TankPlayer3").GetComponent<TankMovement>().rotationSpeed += 50f;
+		GameObject.Find("TankPlayer3").GetComponentInChildren<TankAiming>().projectileSpeed += 20f;
+		GameObject.Find("TankPlayer4").GetComponent<TankMovement>().moveSpeed += 2f;
+		GameObject.Find("TankPlayer4").GetComponent<TankMovement>().rotationSpeed += 50f;
+		GameObject.Find("TankPlayer4").GetComponentInChildren<TankAiming>().projectileSpeed += 20f;
 	}
 
-	void fifteen()
+	IEnumerator RoundCountdown(int countdownStart)
 	{
+		for (int i = countdownStart; i > 0; i--)
+		{
+			roundCountdownText.text = i.ToString();
+			yield return new WaitForSeconds(1f);
+		}
+
+		int refresh = 15;
 		speedIncrease();
-		roundCountdownText.text = "15";
-		Invoke("fourteen", 1);
-	}
-
-	void fourteen()
-	{
-		roundCountdownText.text = "14";
-		Invoke("thirteen", 1);
-	}
-
-	void thirteen()
-	{
-		roundCountdownText.text = "13";
-		Invoke("twelve", 1);
-	}
-
-	void twelve()
-	{
-		roundCountdownText.text = "12";
-		Invoke("eleven", 1);
-	}
-
-	void eleven()
-	{
-		roundCountdownText.text = "11";
-		Invoke("ten", 1);
-	}
-
-	void ten()
-	{
-		roundCountdownText.text = "10";
-		Invoke("nine", 1);
-	}
-
-	void nine()
-	{
-		roundCountdownText.text = "9";
-		Invoke("eight", 1);
-	}
-
-	void eight()
-	{
-		roundCountdownText.text = "8";
-		Invoke("seven", 1);
-	}
-
-	void seven()
-	{
-		roundCountdownText.text = "7";
-		Invoke("six", 1);
-	}
-
-	void six()
-	{
-		roundCountdownText.text = "6";
-		Invoke("five", 1);
-	}
-
-	void five()
-	{
-		roundCountdownText.text = "5";
-		Invoke("four", 1);
-	}
-
-	void four()
-	{
-		roundCountdownText.text = "4";
-		Invoke("three", 1);
-	}
-
-	void three()
-	{
-		roundCountdownText.text = "3";
-		Invoke("two", 1);
-	}
-
-	void two()
-	{
-		roundCountdownText.text = "2";
-		Invoke("one", 1);
-	}
-
-	void one()
-	{
-		roundCountdownText.text = "1";
-		Invoke("zero", 1);
-	}
-
-	void zero()
-	{
-		roundCountdownText.text = "0";
-		Invoke("fifteen", 1);
+		StartCoroutine(RoundCountdown(refresh));
 	}
 }

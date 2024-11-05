@@ -7,7 +7,7 @@ public class TankMovement : MonoBehaviour
     private float move;
     public float moveSpeed;
     private float rotation;
-    private float rotationSpeed;
+    public float rotationSpeed;
     private Rigidbody2D rb;
     private float targetMove;
     private bool isReversed;
