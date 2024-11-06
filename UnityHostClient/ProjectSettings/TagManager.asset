@@ -7,6 +7,7 @@ TagManager:
   - Projectile
   - Tank
   - Environment
+  - Hole
   layers:
   - Default
   - TransparentFX

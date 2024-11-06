@@ -20,5 +20,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TeamTanks.unity
     guid: 51ddb43f7f7914da9b7de80b4a5398a3
+  - enabled: 1
+    path: Assets/Scenes/GolfGame.unity
+    guid: 2b815fd1014d4814d857c1b2444ec3aa
+  - enabled: 1
+    path: Assets/Scenes/GolfController.unity
+    guid: 31956d2b4bdd4144cb00be7d23d34654
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ad86748a8a4454a13bf6d57bbfddbaac, type: 2}

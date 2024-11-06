@@ -582,7 +582,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 268008652}
         m_TargetAssemblyTypeName: ButtonsMainRouter, Assembly-CSharp
-        m_MethodName: TeamTanksButton
+        m_MethodName: GolfGameButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
