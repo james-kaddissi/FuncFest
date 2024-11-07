@@ -15,6 +15,8 @@ public class GolfBallController : MonoBehaviour
 
     public bool inHole = false;
 
+    bool invokedCalled = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,12 +33,22 @@ public class GolfBallController : MonoBehaviour
         if(rb.velocity.magnitude <= 0.1f && rb.velocity.magnitude >= -0.1f && !inHole && GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
         {
             rb.velocity = Vector2.zero;
-            pointer.SetActive(true);
+            if(!invokedCalled)
+            {
+                Invoke("PointerActivate", 2f);
+                invokedCalled = true;
+            }
         }
         else
         {
             pointer.SetActive(false);
         }
+    }
+
+    void PointerActivate()
+    {
+        pointer.SetActive(true);
+        invokedCalled = false;
     }
 
     public void UpdateInput(Vector2 input)

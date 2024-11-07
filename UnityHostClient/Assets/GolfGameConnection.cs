@@ -39,13 +39,21 @@ public class GolfGameConnection : MonoBehaviour
     private bool bypassPlayer7 = false;
     private bool bypassPlayer8 = false;
 
+    public Transform hole1center;
+    public Transform hole2center;
+
+    private Vector3 cameraTargetPosition;
+    private int ballPass;
+
     void Start() {
         webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
         if (webSocketRouter == null)
         {
             Debug.LogWarning("WebSocketRouter not found in scene. Ensure it is present.");
         }
+        cameraTargetPosition = hole1center.transform.position + new Vector3(0, 0, -15);
         BeginGame();
+        bypassPlayer2 = true;
         bypassPlayer3 = true;
         bypassPlayer4 = true;
         bypassPlayer5 = true;
@@ -143,10 +151,16 @@ public class GolfGameConnection : MonoBehaviour
     void GameStart() {
         countdownText.text = "";
         activeBall = 1;
+        cameraTargetPosition = GameObject.Find("Player" + activeBall).transform.position + new Vector3(0, 0, -10);
         GetComponent<AudioSource>().Stop();
     }
 
     void SendBall(int ball) {
+        if(thisHole == 1){
+            cameraTargetPosition = hole1center.position + new Vector3(0, 0, -15);
+        } else if(thisHole == 2){
+            cameraTargetPosition = hole2center.position + new Vector3(0, 0, -15);
+        }
         StartCoroutine(WaitForBallToStop(ball));
     }
 
@@ -156,64 +170,67 @@ public class GolfGameConnection : MonoBehaviour
         while (rb.velocity.magnitude > 0.01f) {
             yield return null;
         }
-
-        PassBall(ball);
+        ballPass = ball;
+        Invoke("PassBall", 2f);
     }
 
-    void PassBall(int ball) {
-        if(bypassPlayer1 && ball == 1) {
-            ball = 2;
-            PassBall(ball);
-        } else if(bypassPlayer2 && ball == 2) {
-            ball = 3;
-            PassBall(ball);
-        } else if(bypassPlayer3 && ball == 3) {
-            ball = 4;
-            PassBall(ball);
-        } else if(bypassPlayer4 && ball == 4) {
-            ball = 5;
-            PassBall(ball);
-        } else if(bypassPlayer5 && ball == 5) {
-            ball = 6;
-            PassBall(ball);
-        } else if(bypassPlayer6 && ball == 6) {
-            ball = 7;
-            PassBall(ball);
-        } else if(bypassPlayer7 && ball == 7) {
-            ball = 8;
-            PassBall(ball);
-        } else if(bypassPlayer8 && ball == 8) {
-            ball = 1;
-            PassBall(ball);
-        } else {
-            activeBall = ball;
+    void PassBall() {
+        if(activeBall != 0) {
+            if(bypassPlayer1 && ballPass == 1) {
+                ballPass = 2;
+                PassBall();
+            } else if(bypassPlayer2 && ballPass == 2) {
+                ballPass = 3;
+                PassBall();
+            } else if(bypassPlayer3 && ballPass == 3) {
+                ballPass = 4;
+                PassBall();
+            } else if(bypassPlayer4 && ballPass == 4) {
+                ballPass = 5;
+                PassBall();
+            } else if(bypassPlayer5 && ballPass == 5) {
+                ballPass = 6;
+                PassBall();
+            } else if(bypassPlayer6 && ballPass == 6) {
+                ballPass = 7;
+                PassBall();
+            } else if(bypassPlayer7 && ballPass == 7) {
+                ballPass = 8;
+                PassBall();
+            } else if(bypassPlayer8 && ballPass == 8) {
+                ballPass = 1;
+                PassBall();
+            } else {
+                activeBall = ballPass;
+                cameraTargetPosition = GameObject.Find("Player" + activeBall).transform.position + new Vector3(0, 0, -10);
+            }
         }
     }
 
     public void BallInHole(int ball) {
         if (ball == 1) {
-            p1totalstrokes++;
+            p1totalstrokes += p1strokes;
             bypassPlayer1 = true;
         } else if (ball == 2) {
-            p2totalstrokes++;
+            p2totalstrokes += p2strokes;
             bypassPlayer2 = true;
         } else if (ball == 3) {
-            p3totalstrokes++;
+            p3totalstrokes += p3strokes;
             bypassPlayer3 = true;
         } else if (ball == 4) {
-            p4totalstrokes++;
+            p4totalstrokes += p4strokes;
             bypassPlayer4 = true;
         } else if (ball == 5) {
-            p5totalstrokes++;
+            p5totalstrokes += p5strokes;
             bypassPlayer5 = true;
         } else if (ball == 6) {
-            p6totalstrokes++;
+            p6totalstrokes += p6strokes;
             bypassPlayer6 = true;
         } else if (ball == 7) {
-            p7totalstrokes++;
+            p7totalstrokes += p7strokes;
             bypassPlayer7 = true;
         } else if (ball == 8) {
-            p8totalstrokes++;
+            p8totalstrokes += p8strokes;
             bypassPlayer8 = true;
         }
     }
@@ -256,10 +273,12 @@ public class GolfGameConnection : MonoBehaviour
         if(bypassPlayer1 && bypassPlayer2 && bypassPlayer3 && bypassPlayer4 && bypassPlayer5 && bypassPlayer6 && bypassPlayer7 && bypassPlayer8){
             NextHole();
         }
+        SmoothCamera();
     }
 
     void NextHole() {
         thisHole++;
+        activeBall = 0;
         GameObject.Find("Player1").GetComponent<SpriteRenderer>().enabled = true;
         GameObject.Find("Player2").GetComponent<SpriteRenderer>().enabled = true;
         GameObject.Find("Player3").GetComponent<SpriteRenderer>().enabled = true;
@@ -277,7 +296,7 @@ public class GolfGameConnection : MonoBehaviour
         GameObject.Find("Player7").transform.localScale = new Vector3(1, 1, 1);
         GameObject.Find("Player8").transform.localScale = new Vector3(1, 1, 1);
         if (thisHole == 2) {
-            Camera.main.transform.position = hole2.transform.position + new Vector3(0, 0, -10);
+            cameraTargetPosition = hole2center.transform.position + new Vector3(0, 0, -15);
         }
         GameObject.Find("Player1").transform.position = hole2.transform.position;
         GameObject.Find("Player2").transform.position = hole2.transform.position;
@@ -288,13 +307,26 @@ public class GolfGameConnection : MonoBehaviour
         GameObject.Find("Player7").transform.position = hole2.transform.position;
         GameObject.Find("Player8").transform.position = hole2.transform.position;
         bypassPlayer1 = false;
-        bypassPlayer2 = false;
+        // bypassPlayer2 = false;
         // bypassPlayer3 = false;
         // bypassPlayer4 = false;
         // bypassPlayer5 = false;
         // bypassPlayer6 = false;
         // bypassPlayer7 = false;
         // bypassPlayer8 = false;
+        p1strokes = 0;
+        p2strokes = 0;
+        p3strokes = 0;
+        p4strokes = 0;
+        p5strokes = 0;
+        p6strokes = 0;
+        p7strokes = 0;
+        p8strokes = 0;
+        Invoke("StartHole", 5f);
+    }
+
+    void StartHole()
+    {
         GameObject.Find("Player1").GetComponent<GolfBallController>().inHole = false;
         GameObject.Find("Player2").GetComponent<GolfBallController>().inHole = false;   
         GameObject.Find("Player3").GetComponent<GolfBallController>().inHole = false;
@@ -304,5 +336,11 @@ public class GolfGameConnection : MonoBehaviour
         GameObject.Find("Player7").GetComponent<GolfBallController>().inHole = false;
         GameObject.Find("Player8").GetComponent<GolfBallController>().inHole = false;
         activeBall = 1;
+        cameraTargetPosition = GameObject.Find("Player" + activeBall).transform.position + new Vector3(0, 0, -10);
+    }
+
+    void SmoothCamera() 
+    {
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTargetPosition, 3f * Time.deltaTime);
     }
 }
