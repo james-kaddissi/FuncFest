@@ -6,10 +6,14 @@ public class GolfBallController : MonoBehaviour
 {
     public float power = 100f;
     public float maxPower = 100f;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private bool isShooting = false;
     private Vector2 shotDirection;
     public Transform pivot;
+    public GameObject pointer;
+    public int thisBall = 1;
+
+    public bool inHole = false;
 
     void Start()
     {
@@ -24,6 +28,15 @@ public class GolfBallController : MonoBehaviour
             isShooting = false;
         }
         pivot.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(shotDirection.y, shotDirection.x) * Mathf.Rad2Deg - 90);
+        if(rb.velocity.magnitude <= 0.1f && rb.velocity.magnitude >= -0.1f && !inHole && GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
+        {
+            rb.velocity = Vector2.zero;
+            pointer.SetActive(true);
+        }
+        else
+        {
+            pointer.SetActive(false);
+        }
     }
 
     public void UpdateInput(Vector2 input)
@@ -44,7 +57,29 @@ public class GolfBallController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Hole")) {
-            gameObject.SetActive(false);
+            inHole = true;
+            StartCoroutine(AnimateBallToHole(other.transform.position));
         }
+    }
+
+    private IEnumerator AnimateBallToHole(Vector3 holePosition)
+    {
+        while (Vector3.Distance(transform.position, holePosition) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, holePosition, 5 * Time.deltaTime);
+            yield return null;
+        }
+        transform.position = holePosition;
+        rb.velocity = Vector2.zero;
+
+        while (transform.localScale.x > 0.1f)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 5 * Time.deltaTime);
+            yield return null;
+        }
+
+        GetComponent<SpriteRenderer>().enabled = false;
+        Debug.Log("Ball has been removed after shrinking.");
+        GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().BallInHole(thisBall);
     }
 }

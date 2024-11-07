@@ -8,11 +8,12 @@ TagManager:
   - Tank
   - Environment
   - Hole
+  - NoCollisionLayer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NoCollisionLayer
   - Water
   - UI
   - 
