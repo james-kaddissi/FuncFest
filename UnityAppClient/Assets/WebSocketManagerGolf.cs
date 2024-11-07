@@ -28,7 +28,7 @@ public class WebSocketManagerGolf : MonoBehaviour
             float remainingTime = lastFireTime + fireCooldown - Time.time;
             fireText.text = $"{Math.Ceiling(remainingTime)}";
         } else {
-            fireText.text = "FIRE!";
+            fireText.text = "Putt";
         }
     }
 

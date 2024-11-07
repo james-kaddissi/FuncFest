@@ -24,10 +24,10 @@ public class GolfBallController : MonoBehaviour
     {
         if (isShooting)
         {
-            rb.AddForce(shotDirection * power);
             isShooting = false;
         }
         pivot.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(shotDirection.y, shotDirection.x) * Mathf.Rad2Deg - 90);
+        pivot.localScale = new Vector3(shotDirection.magnitude * 3, shotDirection.magnitude * 3, 1);
         if(rb.velocity.magnitude <= 0.1f && rb.velocity.magnitude >= -0.1f && !inHole && GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
         {
             rb.velocity = Vector2.zero;
@@ -50,7 +50,7 @@ public class GolfBallController : MonoBehaviour
 
     public void ShootBall()
     {
-        rb.AddForce(shotDirection * power, ForceMode2D.Impulse);
+        rb.AddForce(shotDirection * power * shotDirection.magnitude * 2, ForceMode2D.Impulse);
         isShooting = true;
         Debug.Log("Ball shot");
     }
