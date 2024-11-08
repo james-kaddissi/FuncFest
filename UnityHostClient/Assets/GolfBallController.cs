@@ -43,6 +43,11 @@ public class GolfBallController : MonoBehaviour
         {
             pointer.SetActive(false);
         }
+
+        if (rb.velocity.magnitude > 100f)
+        {
+            rb.velocity = rb.velocity.normalized * 100f;
+        }
     }
 
     void PointerActivate()

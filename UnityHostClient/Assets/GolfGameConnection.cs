@@ -13,6 +13,7 @@ public class GolfGameConnection : MonoBehaviour
     private int thisHole = 1;
 
     public GameObject hole2;
+    public GameObject hole3;
 
     private int p1strokes = 0;
     private int p2strokes = 0;
@@ -41,6 +42,7 @@ public class GolfGameConnection : MonoBehaviour
 
     public Transform hole1center;
     public Transform hole2center;
+    public Transform hole3center;
 
     private Vector3 cameraTargetPosition;
     private int ballPass;
@@ -160,6 +162,8 @@ public class GolfGameConnection : MonoBehaviour
             cameraTargetPosition = hole1center.position + new Vector3(0, 0, -15);
         } else if(thisHole == 2){
             cameraTargetPosition = hole2center.position + new Vector3(0, 0, -15);
+        } else if(thisHole == 3){
+            cameraTargetPosition = hole3center.position + new Vector3(0, 0, -25);
         }
         StartCoroutine(WaitForBallToStop(ball));
     }
@@ -297,15 +301,27 @@ public class GolfGameConnection : MonoBehaviour
         GameObject.Find("Player8").transform.localScale = new Vector3(1, 1, 1);
         if (thisHole == 2) {
             cameraTargetPosition = hole2center.transform.position + new Vector3(0, 0, -15);
+            GameObject.Find("Player1").transform.position = hole2.transform.position;
+            GameObject.Find("Player2").transform.position = hole2.transform.position;
+            GameObject.Find("Player3").transform.position = hole2.transform.position;
+            GameObject.Find("Player4").transform.position = hole2.transform.position;
+            GameObject.Find("Player5").transform.position = hole2.transform.position;
+            GameObject.Find("Player6").transform.position = hole2.transform.position;
+            GameObject.Find("Player7").transform.position = hole2.transform.position;
+            GameObject.Find("Player8").transform.position = hole2.transform.position;
         }
-        GameObject.Find("Player1").transform.position = hole2.transform.position;
-        GameObject.Find("Player2").transform.position = hole2.transform.position;
-        GameObject.Find("Player3").transform.position = hole2.transform.position;
-        GameObject.Find("Player4").transform.position = hole2.transform.position;
-        GameObject.Find("Player5").transform.position = hole2.transform.position;
-        GameObject.Find("Player6").transform.position = hole2.transform.position;
-        GameObject.Find("Player7").transform.position = hole2.transform.position;
-        GameObject.Find("Player8").transform.position = hole2.transform.position;
+        if (thisHole == 3) {
+            cameraTargetPosition = hole3center.transform.position + new Vector3(0, 0, -25);
+            GameObject.Find("Player1").transform.position = hole3.transform.position;
+            GameObject.Find("Player2").transform.position = hole3.transform.position;
+            GameObject.Find("Player3").transform.position = hole3.transform.position;
+            GameObject.Find("Player4").transform.position = hole3.transform.position;
+            GameObject.Find("Player5").transform.position = hole3.transform.position;
+            GameObject.Find("Player6").transform.position = hole3.transform.position;
+            GameObject.Find("Player7").transform.position = hole3.transform.position;
+            GameObject.Find("Player8").transform.position = hole3.transform.position;
+        }
+        
         bypassPlayer1 = false;
         // bypassPlayer2 = false;
         // bypassPlayer3 = false;
