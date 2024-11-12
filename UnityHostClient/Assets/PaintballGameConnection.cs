@@ -5,6 +5,8 @@ using UnityEngine;
 public class PaintballGameConnection : MonoBehaviour
 {
     private WebSocketRouter webSocketRouter;
+    public Camera CameraLeft;
+    public Camera CameraRight;
 
     void Start() {
         webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
@@ -13,7 +15,8 @@ public class PaintballGameConnection : MonoBehaviour
             Debug.LogWarning("WebSocketRouter not found in scene. Ensure it is present.");
         }
 
-
+        CameraLeft.rect = new Rect(0f, 0f, 0.5f, 1f);
+        CameraRight.rect = new Rect(0.5f, 0f, 0.5f, 1f);
     }
 
     public void ProcessMessage(string message) {

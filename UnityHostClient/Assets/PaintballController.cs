@@ -38,7 +38,7 @@ public class PaintballController : MonoBehaviour
 
     public void UpdateInput(Vector2 moveDirection)
     {
-        Vector3 movement = transform.right * moveDirection.x + transform.forward * moveDirection.y;
+        Vector3 movement = new Vector3(moveDirection.x, 0f, moveDirection.y);
 
         controller.Move(movement * moveSpeed * Time.deltaTime);
     }
