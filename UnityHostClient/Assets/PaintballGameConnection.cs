@@ -33,14 +33,21 @@ public class PaintballGameConnection : MonoBehaviour
                     {
                         Debug.LogWarning("Failed to parse aim values. Ensure the message format is correct.");
                     }
-                
+                }
                 if(message.Contains("shoot"))
                 {
-                    //
+                    string[] shootParts = message.Split(' ');
+                    if (shootParts.Length >= 6 && float.TryParse(shootParts[4], out float x) && float.TryParse(shootParts[5], out float y))
+                    {
+                        GameObject.Find("Player").GetComponent<PaintballController>().UpdateShoot(new Vector2(x, y));
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Failed to parse aim values. Ensure the message format is correct.");
+                    }
                 }
                 
             }
         }
-    }
     }
 }

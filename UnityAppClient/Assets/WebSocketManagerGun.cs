@@ -18,7 +18,10 @@ public class WebSocketManagerGun : MonoBehaviour
 
     void Update() {
         
-        Vector2 shootDirection=moveActionToUse.action.ReadValue<Vector2>();
+        Vector2 moveDirection=moveActionToUse.action.ReadValue<Vector2>();
+        webSocketRouter.SendInput($"move {moveDirection.x} {moveDirection.y}");
+        Vector2 shootDirection=shootActionToUse.action.ReadValue<Vector2>();
         webSocketRouter.SendInput($"shoot {shootDirection.x} {shootDirection.y}");
     }
+
 }
