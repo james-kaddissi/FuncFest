@@ -14,12 +14,23 @@ public class GolfBallController : MonoBehaviour
     public int thisBall = 1;
 
     public bool inHole = false;
+    public bool changing = false;
 
     bool invokedCalled = false;
+    public AudioSource audioSource;
+    public AudioClip[] audioClips;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if(GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
+        {
+            pointer.SetActive(true);
+        }
+        if (audioSource == null) {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -30,13 +41,13 @@ public class GolfBallController : MonoBehaviour
         }
         pivot.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(shotDirection.y, shotDirection.x) * Mathf.Rad2Deg - 90);
         pivot.localScale = new Vector3(shotDirection.magnitude * 3, shotDirection.magnitude * 3, 1);
+        
         if(rb.velocity.magnitude <= 0.1f && rb.velocity.magnitude >= -0.1f && !inHole && GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
         {
             rb.velocity = Vector2.zero;
-            if(!invokedCalled)
+            if(GameObject.Find("GolfGameConnection").GetComponent<GolfGameConnection>().activeBall == thisBall)
             {
-                Invoke("PointerActivate", 2f);
-                invokedCalled = true;
+                PointerActivate();
             }
         }
         else
@@ -58,8 +69,10 @@ public class GolfBallController : MonoBehaviour
 
     public void UpdateInput(Vector2 input)
     {
+        changing = true;
         if(input == Vector2.zero)
         {
+            changing = false;
             return;
         }
         shotDirection = input;
@@ -69,6 +82,8 @@ public class GolfBallController : MonoBehaviour
     {
         rb.AddForce(shotDirection * power * shotDirection.magnitude * 2, ForceMode2D.Impulse);
         isShooting = true;
+        audioSource.clip = audioClips[0];
+        audioSource.Play();
         Debug.Log("Ball shot");
     }
 

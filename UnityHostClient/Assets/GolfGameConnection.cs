@@ -14,6 +14,7 @@ public class GolfGameConnection : MonoBehaviour
 
     public GameObject hole2;
     public GameObject hole3;
+    public GameObject hole4;
 
     private int p1strokes = 0;
     private int p2strokes = 0;
@@ -43,6 +44,7 @@ public class GolfGameConnection : MonoBehaviour
     public Transform hole1center;
     public Transform hole2center;
     public Transform hole3center;
+    public Transform hole4center;
 
     private Vector3 cameraTargetPosition;
     private int ballPass;
@@ -163,7 +165,9 @@ public class GolfGameConnection : MonoBehaviour
         } else if(thisHole == 2){
             cameraTargetPosition = hole2center.position + new Vector3(0, 0, -15);
         } else if(thisHole == 3){
-            cameraTargetPosition = hole3center.position + new Vector3(0, 0, -25);
+            cameraTargetPosition = hole3center.position + new Vector3(0, 0, -30);
+        } else if(thisHole == 4){
+            cameraTargetPosition = hole4center.position + new Vector3(0, 0, -35);
         }
         StartCoroutine(WaitForBallToStop(ball));
     }
@@ -278,6 +282,19 @@ public class GolfGameConnection : MonoBehaviour
             NextHole();
         }
         SmoothCamera();
+        if(GameObject.Find("Player" + activeBall).GetComponent<GolfBallController>().changing){
+            cameraTargetPosition = GameObject.Find("Player" + activeBall).transform.position + new Vector3(0, 0, -10);
+        } else {
+            if(thisHole == 1) {
+                cameraTargetPosition = hole1center.position + new Vector3(0, 0, -15);
+            } else if (thisHole == 2) {
+                cameraTargetPosition = hole2center.position + new Vector3(0, 0, -15);
+            } else if (thisHole == 3) {
+                cameraTargetPosition = hole3center.position + new Vector3(0, 0, -30);
+            } else if (thisHole == 4) {
+                cameraTargetPosition = hole4center.position + new Vector3(0, 0, -35);
+            }
+        }
     }
 
     void NextHole() {
@@ -311,7 +328,7 @@ public class GolfGameConnection : MonoBehaviour
             GameObject.Find("Player8").transform.position = hole2.transform.position;
         }
         if (thisHole == 3) {
-            cameraTargetPosition = hole3center.transform.position + new Vector3(0, 0, -25);
+            cameraTargetPosition = hole3center.transform.position + new Vector3(0, 0, -30);
             GameObject.Find("Player1").transform.position = hole3.transform.position;
             GameObject.Find("Player2").transform.position = hole3.transform.position;
             GameObject.Find("Player3").transform.position = hole3.transform.position;
@@ -320,6 +337,17 @@ public class GolfGameConnection : MonoBehaviour
             GameObject.Find("Player6").transform.position = hole3.transform.position;
             GameObject.Find("Player7").transform.position = hole3.transform.position;
             GameObject.Find("Player8").transform.position = hole3.transform.position;
+        }
+        if (thisHole == 4) {
+            cameraTargetPosition = hole4center.transform.position + new Vector3(0, 0, -35);
+            GameObject.Find("Player1").transform.position = hole4.transform.position;
+            GameObject.Find("Player2").transform.position = hole4.transform.position;
+            GameObject.Find("Player3").transform.position = hole4.transform.position;
+            GameObject.Find("Player4").transform.position = hole4.transform.position;
+            GameObject.Find("Player5").transform.position = hole4.transform.position;
+            GameObject.Find("Player6").transform.position = hole4.transform.position;
+            GameObject.Find("Player7").transform.position = hole4.transform.position;
+            GameObject.Find("Player8").transform.position = hole4.transform.position;
         }
         
         bypassPlayer1 = false;
