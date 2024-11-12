@@ -26,5 +26,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GolfController.unity
     guid: 31956d2b4bdd4144cb00be7d23d34654
+  - enabled: 1
+    path: Assets/Scenes/PaintballGame.unity
+    guid: 3f423d33e2c2f464caf9a63924aa97b6
+  - enabled: 1
+    path: Assets/Scenes/PaintballController.unity
+    guid: da90a02e85bbbf0468b2d09cbd3ca34b
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ad86748a8a4454a13bf6d57bbfddbaac, type: 2}

@@ -11,4 +11,8 @@ public class ButtonsMainRouter : MonoBehaviour
     public void GolfGameButton() {
         GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>().RouteToScene("GolfGame");
     }
+
+    public void PaintballGameButton() {
+        GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>().RouteToScene("PaintballGame");
+    }
 }

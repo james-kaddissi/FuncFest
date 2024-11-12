@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GolfGame.unity
     guid: 131a80506b9f16e4fb9f04ff99a0ee09
+  - enabled: 1
+    path: Assets/Scenes/PaintballGame.unity
+    guid: c38ffa831a22905488b8099903ff0cda
   m_configObjects: {}

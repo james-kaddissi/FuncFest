@@ -90,6 +90,8 @@ public class GolfBallController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Hole")) {
             inHole = true;
+            audioSource.clip = audioClips[1];
+            audioSource.Play();
             StartCoroutine(AnimateBallToHole(other.transform.position));
         }
     }
