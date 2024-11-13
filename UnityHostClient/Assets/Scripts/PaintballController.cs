@@ -60,7 +60,7 @@ public class PaintballController : MonoBehaviour
 
         Vector3 targetPosition = transform.position + targetDirection.normalized * targetDistance;
 
-        targetPosition.y = 0f;
+        targetPosition.y = 0.05f;
 
         if (targetCircle != null)
         {
@@ -79,28 +79,23 @@ public class PaintballController : MonoBehaviour
     private void LaunchProjectile(Vector3 targetPosition)
     {
         readyToShoot = false;
-        Invoke("ResetReadyToShoot", 1f);
-        // Ensure the target position is on the ground (y = 0)
+        Invoke("ResetReadyToShoot", 0.2f);
         targetPosition.y = 0f;
 
-        // Calculate the horizontal distance (range) to the target
         float horizontalDistance = Vector3.Distance(transform.position, targetPosition);
 
-        // Acceleration due to gravity
-        float gravity = Physics.gravity.y; // Should be negative, typically -9.81
+        float gravity = Physics.gravity.y;
 
-        // Calculate the required initial velocity to hit the target
-        float initialVelocity = Mathf.Sqrt(horizontalDistance * Mathf.Abs(gravity));
+        float launchAngle = 20f * Mathf.Deg2Rad;
 
-        // Calculate the horizontal and vertical velocity components
-        float velocityX = initialVelocity * Mathf.Cos(45f * Mathf.Deg2Rad); // Convert 45 degrees to radians
-        float velocityY = initialVelocity * Mathf.Sin(45f * Mathf.Deg2Rad);
+        float initialVelocity = Mathf.Sqrt(horizontalDistance * Mathf.Abs(gravity) / Mathf.Sin(2 * launchAngle));
 
-        // Set the initial velocity vector (we assume player is facing the target)
+        float velocityX = initialVelocity * Mathf.Cos(launchAngle);
+        float velocityY = initialVelocity * Mathf.Sin(launchAngle);
+
         Vector3 launchVelocity = transform.forward * velocityX;
         launchVelocity.y = velocityY;
 
-        // Instantiate and launch the projectile
         GameObject projectile = Instantiate(projectilePrefab, transform.position + Vector3.up * 0.75f, Quaternion.identity);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 

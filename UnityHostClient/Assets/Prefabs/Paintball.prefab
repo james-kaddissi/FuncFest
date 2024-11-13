@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2921754528183985809}
   - component: {fileID: 53375044898752566}
   - component: {fileID: 5082443727873453770}
+  - component: {fileID: 2859897641118519535}
   m_Layer: 0
   m_Name: Paintball
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 83b6b92c450a06f46a304ddabd4cc0a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,3 +134,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2859897641118519535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4413015111384022403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1844d6f51c0e2479de8fc0f01d668d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: e4b17d731d99a1b4eb2082649eab4c3d, type: 2}
+  - {fileID: 2100000, guid: 83b6b92c450a06f46a304ddabd4cc0a5, type: 2}
+  - {fileID: 2100000, guid: 1f2388a1563a93144998b6386ca88e0e, type: 2}
+  - {fileID: 2100000, guid: 7fda7a7affd8477499d6e5b0587b5022, type: 2}
+  - {fileID: 2100000, guid: f18e475c0cbd7d247896dcb6863c9f2b, type: 2}
+  - {fileID: 2100000, guid: c8cb585225a52c8419657f93e7241694, type: 2}
+  explosionPrefab: {fileID: 6511696163237183387, guid: ae771677890ff6d418df5eb6694dc67f, type: 3}
+  paintSplatterPrefab: {fileID: 8366503615411964521, guid: 1f028f67966968f40a6d509a53696b96, type: 3}

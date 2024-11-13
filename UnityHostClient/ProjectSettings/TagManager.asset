@@ -9,6 +9,7 @@ TagManager:
   - Environment
   - Hole
   - NoCollisionLayer
+  - Ground
   layers:
   - Default
   - TransparentFX

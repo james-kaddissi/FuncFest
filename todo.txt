@@ -1,1 +1,1 @@
-next time add second joystick to paintball controller it controls the shoot direction and distance based on input magnitude, always shoot
+next time server overhaul, integrate direct server start from host
