@@ -388,6 +388,10 @@ PrefabInstance:
       propertyPath: m_ControlPath
       value: <Gamepad>/rightStick
       objectReference: {fileID: 0}
+    - target: {fileID: 2527207410675381960, guid: 12f003a8066164047a97b28a6ceda117, type: 3}
+      propertyPath: m_MovementRange
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 3509251801682531462, guid: 12f003a8066164047a97b28a6ceda117, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -513,7 +517,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 1500, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1861584121
 MonoBehaviour:
@@ -616,7 +620,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 500, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4369655251059814620
 Canvas:
@@ -729,6 +733,10 @@ PrefabInstance:
     - target: {fileID: 847924168015708307, guid: 12f003a8066164047a97b28a6ceda117, type: 3}
       propertyPath: m_Color.r
       value: 0.4433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527207410675381960, guid: 12f003a8066164047a97b28a6ceda117, type: 3}
+      propertyPath: m_MovementRange
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 3509251801682531462, guid: 12f003a8066164047a97b28a6ceda117, type: 3}
       propertyPath: m_Pivot.x
