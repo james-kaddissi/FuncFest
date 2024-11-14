@@ -9,17 +9,35 @@ public class ColorBall : MonoBehaviour
     public GameObject explosionPrefab;
     public GameObject paintSplatterPrefab;
 
+    private float timeSinceInstantiation;
+    private bool isInstantiated;
+
     void Start() {
         if (materials.Length > 0) {
             Renderer renderer = GetComponent<Renderer>();
             randomIndex = Random.Range(0, materials.Length);
             renderer.material = materials[randomIndex];
         }
+
+        timeSinceInstantiation = 0f;
+        isInstantiated = true;
+    }
+
+    void Update() {
+        if (isInstantiated) {
+            timeSinceInstantiation += Time.deltaTime;
+            if (timeSinceInstantiation > 0.1f) {
+                isInstantiated = false;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision other) {
-        if(other.gameObject.tag=="Player"){
+        if(other.gameObject.tag=="Player" && isInstantiated) {
             return;
+        }
+        if(other.gameObject.tag=="Player") {
+            other.gameObject.GetComponent<PlayerHealth>().TakeDamage(10);
         }
         GameObject instance = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         ParticleSystem ps = instance.GetComponent<ParticleSystem>();

@@ -30,7 +30,7 @@ public class PaintballGameConnection : MonoBehaviour
                     string[] moveParts = message.Split(' ');
                     if (moveParts.Length >= 6 && float.TryParse(moveParts[4], out float x) && float.TryParse(moveParts[5], out float y))
                     {
-                        GameObject.Find("Player").GetComponent<PaintballController>().UpdateInput(new Vector2(x, y));
+                        GameObject.Find("Player" + playerId).GetComponent<PaintballController>().UpdateInput(new Vector2(x, y));
                     }
                     else
                     {
@@ -42,7 +42,7 @@ public class PaintballGameConnection : MonoBehaviour
                     string[] shootParts = message.Split(' ');
                     if (shootParts.Length >= 6 && float.TryParse(shootParts[4], out float x) && float.TryParse(shootParts[5], out float y))
                     {
-                        GameObject.Find("Player").GetComponent<PaintballController>().UpdateShoot(new Vector2(x, y));
+                        GameObject.Find("Player" + playerId).GetComponent<PaintballController>().UpdateShoot(new Vector2(x, y));
                     }
                     else
                     {
