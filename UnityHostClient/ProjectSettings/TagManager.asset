@@ -10,6 +10,7 @@ TagManager:
   - Hole
   - NoCollisionLayer
   - Ground
+  - Obstacle
   layers:
   - Default
   - TransparentFX

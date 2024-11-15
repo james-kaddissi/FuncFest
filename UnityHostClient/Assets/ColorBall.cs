@@ -43,6 +43,25 @@ public class ColorBall : MonoBehaviour
         ParticleSystem ps = instance.GetComponent<ParticleSystem>();
         var mainModule = ps.main;
         mainModule.startColor = materials[randomIndex].color;
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            ContactPoint contact = other.contacts[0];
+            Vector3 hitPoint = contact.point;
+
+            Vector3 spawnPosition = hitPoint + contact.normal * 0.05f; 
+
+            GameObject splatter = Instantiate(paintSplatterPrefab, spawnPosition, Quaternion.identity);
+
+            Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, contact.normal);
+            splatter.transform.rotation = surfaceRotation * Quaternion.Euler(90f, 0f, 0f);
+
+            Color assignColor = materials[randomIndex].color;
+            splatter.GetComponent<SpriteRenderer>().color = assignColor;
+
+            float randomScale = Random.Range(0.02f, 0.08f);
+            splatter.transform.localScale = new Vector3(randomScale, randomScale, 1f);
+        }
+
         if (other.gameObject.CompareTag("Ground"))
         {
             ContactPoint contact = other.contacts[0];

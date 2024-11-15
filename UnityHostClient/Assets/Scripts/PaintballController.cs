@@ -15,16 +15,41 @@ public class PaintballController : MonoBehaviour
     private bool isGrounded;
 
     private bool readyToShoot = false;
+    private Vector3 movement;
+
+    public Transform outlineSprite;
+    public float minScale = 0.83f; 
+    public float maxScale = 1.17f;  
+    public float pulseSpeed = 2f;
+    private Vector3 initialScale;
+
+    public Transform targetSprite;
+    public float rotationSpeed = 50f;
+    public float minScaleTarget = 0.9f;
+    public float maxScaleTarget = 1.1f;
+    public Vector3 initialScaleTarget;
+
+    public GameObject pointer;
+    private RectTransform pointerRectTransform;
+    public float bobSpeed = 2f;
+    public float bobHeight = 1f;
+    private Vector2 initialPosition;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         readyToShoot = true;
+        initialScale = outlineSprite.localScale;
+        initialScaleTarget = targetSprite.localScale;
+        pointerRectTransform = pointer.GetComponent<RectTransform>();
+        initialPosition = pointer.GetComponent<RectTransform>().anchoredPosition;
     }
 
     void Update()
     {
         isGrounded = controller.isGrounded;
+        float newY = initialPosition.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+        pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(initialPosition.x, newY);
 
         if (isGrounded && velocity.y < 0)
         {
@@ -34,13 +59,19 @@ public class PaintballController : MonoBehaviour
         velocity.y += -9.8f * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+        controller.Move(movement * moveSpeed * Time.deltaTime);
+        float scale = Mathf.Lerp(minScale, maxScale, (Mathf.Sin(Time.time * pulseSpeed) + 1) / 2);
+        outlineSprite.localScale = initialScale * scale;
+        targetSprite.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
+        float scaleTarget = Mathf.Lerp(minScaleTarget, maxScaleTarget, (Mathf.Sin(Time.time * pulseSpeed) + 1) / 2);
+        targetSprite.localScale = initialScaleTarget * scaleTarget;
+
     }
 
     public void UpdateInput(Vector2 moveDirection)
     {
-        Vector3 movement = new Vector3(moveDirection.x, 0f, moveDirection.y);
-
-        controller.Move(movement * moveSpeed * Time.deltaTime);
+        movement = new Vector3(moveDirection.x, 0f, moveDirection.y);
+        
     }
 
     public void UpdateShoot(Vector2 aimDirection)
