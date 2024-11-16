@@ -4,7 +4,8 @@ import threading
 import socket
 
 player_id_counter = 1
-uuid_id_map = {}
+uuid_id_map = {}
+
 last_messages = {}
 
 async def echo(websocket, path):
@@ -37,10 +38,13 @@ async def echo(websocket, path):
                 connected_clients[websocket] = player_id
                 print("Host connected")
             else:
-                if player_id is not None:
-                    last_message = last_messages.get(player_id)
+                if player_id is not None:
+
+                    last_message = last_messages.get(player_id)
+
                     if last_message != message:
-                        print(f"Received message from Player {player_id}: {message}")
+                        print(f"Received message from Player {player_id}: {message}")
+
                         last_messages[player_id] = message
 
                     await websocket.send(f"ID: {player_id} sent: {message}")
@@ -65,7 +69,7 @@ def get_ip_address():
 
 async def start_server():
     ip = get_ip_address()
-    server = await websockets.serve(echo, get_ip_address(), 6789)
+    server = await websockets.serve(echo, '0.0.0.0', 6789)
     print(f"WebSocket server started on ws://{ip}:6789")
     await server.wait_closed()
 

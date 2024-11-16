@@ -35,6 +35,10 @@ public class PaintballController : MonoBehaviour
     public float bobHeight = 1f;
     private Vector2 initialPosition;
 
+    public Animator animator;
+    private static readonly int IsIdle = Animator.StringToHash("IsIdle");
+    private static readonly int IsStandingFiring = Animator.StringToHash("IsStandingFiring");
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -43,6 +47,8 @@ public class PaintballController : MonoBehaviour
         initialScaleTarget = targetSprite.localScale;
         pointerRectTransform = pointer.GetComponent<RectTransform>();
         initialPosition = pointer.GetComponent<RectTransform>().anchoredPosition;
+        animator.SetBool(IsIdle, true);
+        animator.SetBool(IsStandingFiring, false);
     }
 
     void Update()
@@ -80,9 +86,16 @@ public class PaintballController : MonoBehaviour
 
         if (targetDirection.sqrMagnitude > 0.01f) 
         {
+            animator.SetBool(IsIdle, false);
+            animator.SetBool(IsStandingFiring, true);
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
             CreateTargetCircle(targetDirection, aimDirection.magnitude);
+        }
+        else
+        {
+            animator.SetBool(IsIdle, true);
+            animator.SetBool(IsStandingFiring, false);
         }
     }
 
@@ -119,7 +132,7 @@ public class PaintballController : MonoBehaviour
 
         float launchAngle = 20f * Mathf.Deg2Rad;
 
-        float initialVelocity = Mathf.Sqrt(horizontalDistance * Mathf.Abs(gravity) / Mathf.Sin(2 * launchAngle));
+        float initialVelocity = -5f + Mathf.Sqrt(horizontalDistance * Mathf.Abs(gravity) / Mathf.Sin(2 * launchAngle));
 
         float velocityX = initialVelocity * Mathf.Cos(launchAngle);
         float velocityY = initialVelocity * Mathf.Sin(launchAngle);
@@ -127,7 +140,8 @@ public class PaintballController : MonoBehaviour
         Vector3 launchVelocity = transform.forward * velocityX;
         launchVelocity.y = velocityY;
 
-        GameObject projectile = Instantiate(projectilePrefab, transform.position + Vector3.up * 0.75f, Quaternion.identity);
+        Transform firingPoint = transform.Find("FiringPoint");
+        GameObject projectile = Instantiate(projectilePrefab, firingPoint.position, Quaternion.identity);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
         if (rb != null)
