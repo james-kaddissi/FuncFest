@@ -38,6 +38,7 @@ public class PaintballController : MonoBehaviour
     public Animator animator;
     private static readonly int IsIdle = Animator.StringToHash("IsIdle");
     private static readonly int IsStandingFiring = Animator.StringToHash("IsStandingFiring");
+    private static readonly int IsForwardMovingFiring = Animator.StringToHash("IsForwardMovingFiring");
 
     void Start()
     {
@@ -49,6 +50,7 @@ public class PaintballController : MonoBehaviour
         initialPosition = pointer.GetComponent<RectTransform>().anchoredPosition;
         animator.SetBool(IsIdle, true);
         animator.SetBool(IsStandingFiring, false);
+        animator.SetBool(IsForwardMovingFiring, false);
     }
 
     void Update()
@@ -87,7 +89,16 @@ public class PaintballController : MonoBehaviour
         if (targetDirection.sqrMagnitude > 0.01f) 
         {
             animator.SetBool(IsIdle, false);
-            animator.SetBool(IsStandingFiring, true);
+            if (movement.sqrMagnitude > 0.01f)
+            {
+                animator.SetBool(IsForwardMovingFiring, true);
+                animator.SetBool(IsStandingFiring, false);
+            }
+            else
+            {
+                animator.SetBool(IsForwardMovingFiring, false);
+                animator.SetBool(IsStandingFiring, true);
+            }
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
             CreateTargetCircle(targetDirection, aimDirection.magnitude);
@@ -96,6 +107,7 @@ public class PaintballController : MonoBehaviour
         {
             animator.SetBool(IsIdle, true);
             animator.SetBool(IsStandingFiring, false);
+            animator.SetBool(IsForwardMovingFiring, false);
         }
     }
 
