@@ -18,8 +18,8 @@ TagManager:
   - NoCollisionLayer
   - Water
   - UI
-  - 
-  - 
+  - UI_Blue
+  - UI_Red
   - 
   - 
   - 

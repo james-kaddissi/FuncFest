@@ -882,6 +882,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 1097663209}
+  thisSideCamera: {fileID: 1280959361}
+  thisCanvas: {fileID: 1215072414}
 --- !u!143 &115793944
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2164,7 +2166,7 @@ GameObject:
   - component: {fileID: 260449587}
   - component: {fileID: 260449586}
   - component: {fileID: 260449585}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3309,7 +3311,7 @@ GameObject:
   - component: {fileID: 444973260}
   - component: {fileID: 444973259}
   - component: {fileID: 444973258}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4275,7 +4277,7 @@ GameObject:
   - component: {fileID: 559713942}
   - component: {fileID: 559713941}
   - component: {fileID: 559713940}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5291,6 +5293,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 2179439136811932801}
+  thisSideCamera: {fileID: 686702876}
+  thisCanvas: {fileID: 260449583}
 --- !u!143 &651780091
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5475,6 +5479,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 168759838}
+  thisSideCamera: {fileID: 1280959361}
+  thisCanvas: {fileID: 1690946342}
 --- !u!143 &664109332
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5738,7 +5744,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 127
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -6144,7 +6150,7 @@ GameObject:
   - component: {fileID: 765570360}
   - component: {fileID: 765570362}
   - component: {fileID: 765570361}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7183,6 +7189,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 1102334064}
+  thisSideCamera: {fileID: 686702876}
+  thisCanvas: {fileID: 588098351}
 --- !u!143 &952071659
 CharacterController:
   m_ObjectHideFlags: 0
@@ -7761,7 +7769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1044810742}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: HealthPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8072,6 +8080,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 2074785566}
+  thisSideCamera: {fileID: 1280959361}
+  thisCanvas: {fileID: 444973256}
 --- !u!143 &1087302564
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11431,7 +11441,7 @@ GameObject:
   - component: {fileID: 1531512345}
   - component: {fileID: 1531512347}
   - component: {fileID: 1531512346}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11583,6 +11593,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 1276866828}
+  thisSideCamera: {fileID: 686702876}
+  thisCanvas: {fileID: 1182329580}
 --- !u!143 &1536232502
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11881,7 +11893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1600716062}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12624,7 +12636,7 @@ GameObject:
   - component: {fileID: 1666770907}
   - component: {fileID: 1666770909}
   - component: {fileID: 1666770908}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12795,7 +12807,7 @@ GameObject:
   - component: {fileID: 1686240503}
   - component: {fileID: 1686240505}
   - component: {fileID: 1686240504}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14417,6 +14429,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 1511640927}
+  thisSideCamera: {fileID: 686702876}
+  thisCanvas: {fileID: 1622493813}
 --- !u!143 &1919255982
 CharacterController:
   m_ObjectHideFlags: 0
@@ -14650,6 +14664,8 @@ MonoBehaviour:
   bobSpeed: 2
   bobHeight: 0.5
   animator: {fileID: 1036465848}
+  thisSideCamera: {fileID: 1280959361}
+  thisCanvas: {fileID: 92091257}
 --- !u!143 &1929149601
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15352,7 +15368,7 @@ GameObject:
   - component: {fileID: 2041800452}
   - component: {fileID: 2041800454}
   - component: {fileID: 2041800453}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16128,7 +16144,7 @@ Transform:
   m_GameObject: {fileID: 8415717235121798984}
   serializedVersion: 2
   m_LocalRotation: {x: -0.034733113, y: -0.034733113, z: 0.70625323, w: 0.70625323}
-  m_LocalPosition: {x: -0, y: 0, z: 0.013562815}
+  m_LocalPosition: {x: -0, y: 0, z: 0.01356282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -37,8 +37,21 @@ public class PaintballController : MonoBehaviour
 
     public Animator animator;
     private static readonly int IsIdle = Animator.StringToHash("IsIdle");
+    private static readonly int IsForwardMoving = Animator.StringToHash("IsForwardMoving");
+    private static readonly int IsBackMoving = Animator.StringToHash("IsBackMoving");
+    private static readonly int IsLeftMoving = Animator.StringToHash("IsLeftMoving");
+    private static readonly int IsRightMoving = Animator.StringToHash("IsRightMoving");
+
     private static readonly int IsStandingFiring = Animator.StringToHash("IsStandingFiring");
     private static readonly int IsForwardMovingFiring = Animator.StringToHash("IsForwardMovingFiring");
+    private static readonly int IsBackMovingFiring = Animator.StringToHash("IsBackMovingFiring");
+    private static readonly int IsLeftMovingFiring = Animator.StringToHash("IsLeftMovingFiring");
+    private static readonly int IsRightMovingFiring = Animator.StringToHash("IsRightMovingFiring");
+
+    public Camera thisSideCamera;
+    public GameObject thisCanvas;
+
+    Vector3 targetDirection;
 
     void Start()
     {
@@ -51,6 +64,13 @@ public class PaintballController : MonoBehaviour
         animator.SetBool(IsIdle, true);
         animator.SetBool(IsStandingFiring, false);
         animator.SetBool(IsForwardMovingFiring, false);
+        animator.SetBool(IsBackMovingFiring, false);
+        animator.SetBool(IsLeftMovingFiring, false);
+        animator.SetBool(IsRightMovingFiring, false);
+        animator.SetBool(IsForwardMoving, false);
+        animator.SetBool(IsBackMoving, false);
+        animator.SetBool(IsLeftMoving, false);
+        animator.SetBool(IsRightMoving, false);
     }
 
     void Update()
@@ -73,7 +93,75 @@ public class PaintballController : MonoBehaviour
         targetSprite.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
         float scaleTarget = Mathf.Lerp(minScaleTarget, maxScaleTarget, (Mathf.Sin(Time.time * pulseSpeed) + 1) / 2);
         targetSprite.localScale = initialScaleTarget * scaleTarget;
-
+        thisCanvas.transform.LookAt(thisSideCamera.transform);
+        if(targetDirection == Vector3.zero)
+        {
+            if(movement != Vector3.zero) {
+                if (Vector3.Dot(movement.normalized, transform.forward) > 0.5f)  // Forward
+                {
+                    animator.SetBool(IsForwardMoving, true);
+                    animator.SetBool(IsIdle, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, -transform.forward) > 0.5f)  // Backward
+                {
+                    animator.SetBool(IsBackMoving, true);
+                    animator.SetBool(IsIdle, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, transform.right) > 0.5f)  // Right
+                {
+                    animator.SetBool(IsRightMoving, true);
+                    animator.SetBool(IsIdle, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, -transform.right) > 0.5f)  // Left
+                {
+                    animator.SetBool(IsLeftMoving, true);
+                    animator.SetBool(IsIdle, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+            } else {
+                animator.SetBool(IsIdle, true);
+                animator.SetBool(IsStandingFiring, false);
+                animator.SetBool(IsForwardMovingFiring, false);
+                animator.SetBool(IsBackMovingFiring, false);
+                animator.SetBool(IsLeftMovingFiring, false);
+                animator.SetBool(IsRightMovingFiring, false);
+                animator.SetBool(IsForwardMoving, false);
+                animator.SetBool(IsBackMoving, false);
+                animator.SetBool(IsLeftMoving, false);
+                animator.SetBool(IsRightMoving, false);
+            }
+        }
     }
 
     public void UpdateInput(Vector2 moveDirection)
@@ -84,20 +172,73 @@ public class PaintballController : MonoBehaviour
 
     public void UpdateShoot(Vector2 aimDirection)
     {
-        Vector3 targetDirection = new Vector3(aimDirection.x, 0, aimDirection.y);
+        targetDirection = new Vector3(aimDirection.x, 0, aimDirection.y);
 
         if (targetDirection.sqrMagnitude > 0.01f) 
         {
             animator.SetBool(IsIdle, false);
             if (movement.sqrMagnitude > 0.01f)
             {
-                animator.SetBool(IsForwardMovingFiring, true);
-                animator.SetBool(IsStandingFiring, false);
+                if (Vector3.Dot(movement.normalized, transform.forward) > 0.5f)  // Forward
+                {
+                    animator.SetBool(IsForwardMovingFiring, true);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, -transform.forward) > 0.5f)  // Backward
+                {
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, true);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, transform.right) > 0.5f)  // Right
+                {
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, false);
+                    animator.SetBool(IsRightMovingFiring, true);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
+                else if (Vector3.Dot(movement.normalized, -transform.right) > 0.5f)  // Left
+                {
+                    animator.SetBool(IsForwardMovingFiring, false);
+                    animator.SetBool(IsStandingFiring, false);
+                    animator.SetBool(IsLeftMovingFiring, true);
+                    animator.SetBool(IsRightMovingFiring, false);
+                    animator.SetBool(IsBackMovingFiring, false);
+                    animator.SetBool(IsForwardMoving, false);
+                    animator.SetBool(IsBackMoving, false);
+                    animator.SetBool(IsLeftMoving, false);
+                    animator.SetBool(IsRightMoving, false);
+                }
             }
             else
             {
                 animator.SetBool(IsForwardMovingFiring, false);
+                animator.SetBool(IsLeftMovingFiring, false);
+                animator.SetBool(IsRightMovingFiring, false);
+                animator.SetBool(IsBackMovingFiring, false);
                 animator.SetBool(IsStandingFiring, true);
+                animator.SetBool(IsForwardMoving, false);
+                animator.SetBool(IsBackMoving, false);
+                animator.SetBool(IsLeftMoving, false);
+                animator.SetBool(IsRightMoving, false);
             }
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
@@ -108,6 +249,9 @@ public class PaintballController : MonoBehaviour
             animator.SetBool(IsIdle, true);
             animator.SetBool(IsStandingFiring, false);
             animator.SetBool(IsForwardMovingFiring, false);
+            animator.SetBool(IsBackMovingFiring, false);
+            animator.SetBool(IsLeftMovingFiring, false);
+            animator.SetBool(IsRightMovingFiring, false);
         }
     }
 
