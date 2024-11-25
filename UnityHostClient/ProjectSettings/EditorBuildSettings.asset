@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PaintballGame.unity
     guid: c38ffa831a22905488b8099903ff0cda
+  - enabled: 1
+    path: Assets/Scenes/KnockoutGame.unity
+    guid: 19528f017682fbe49a17e8b2a6c9329d
   m_configObjects: {}
