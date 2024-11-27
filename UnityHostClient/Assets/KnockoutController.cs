@@ -9,6 +9,29 @@ public class KnockoutController : MonoBehaviour
     private float rotationSpeed = 0.4f;
     private float launchDelay = 1f;
 
+    private bool wasLaunched = false;
+
+    private SpriteRenderer spriteRenderer;
+    public Sprite closedSprite;
+    public Sprite openSprite;
+
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update() {
+        if(wasLaunched) {
+            spriteRenderer.sprite = openSprite;
+            if(GetComponent<Rigidbody2D>().velocity.magnitude == 0) {
+                wasLaunched = false;
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+        } else {
+            spriteRenderer.sprite = closedSprite;
+        }
+    }
+
     public void UpdateInput(Vector2 input)
     {
         if(input.magnitude != 0) {
@@ -29,7 +52,7 @@ public class KnockoutController : MonoBehaviour
     private IEnumerator RotateAndLaunch()
     {
         Vector2 currentDirection = transform.up;
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, aimDirection);
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, -aimDirection);
 
         float timeElapsed = 0f;
 
@@ -48,7 +71,7 @@ public class KnockoutController : MonoBehaviour
         if (rb != null)
         {
             rb.velocity = aimDirection.normalized * aimPower;
-            Debug.Log($"Launched with power {aimPower}");
+            wasLaunched = true;
         }
     }
 }

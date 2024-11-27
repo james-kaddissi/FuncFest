@@ -1,14 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class KnockoutGameConnection : MonoBehaviour
 {
     private WebSocketRouter webSocketRouter;
+    public TextMeshProUGUI countdownText;
 
     void Start() {
         webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
-        Invoke("Launch", 10f);
+        StartCountdown(10f);
+    }
+
+    public void StartCountdown(float time) {
+        StartCoroutine(Countdown(time));
+    }
+
+    private IEnumerator Countdown(float time)
+    {
+        while (time > 0)
+        {
+            countdownText.text = Mathf.Ceil(time).ToString();
+            time -= 1f;
+            yield return new WaitForSeconds(1f);
+        }
+
+        countdownText.text = "0";
+        Launch();
     }
 
     void Launch() {
