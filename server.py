@@ -18,6 +18,7 @@ async def echo(websocket, path):
         async for message in websocket:
             if message.startswith("uuid "):
                 uuid = message.split(" ")[1]
+                name = message.split(" ")[2]
                 if uuid in uuid_id_map:
                     player_id = uuid_id_map[uuid]
                 else:
@@ -31,7 +32,7 @@ async def echo(websocket, path):
                 await websocket.send(f"Connected to server as Player {player_id}")
                 for client, id in connected_clients.items():
                     if id == 99:
-                        await client.send(f"Connected {player_id} {uuid}")
+                        await client.send(f"Connected {player_id} {uuid} {name}")
 
             elif message.startswith("host"):
                 player_id = 99

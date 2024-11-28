@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 using System.Reflection;
 using System.Net;
 using System.Net.Sockets;
+using TMPro;
 
 public class WebSocketRouter : MonoBehaviour
 {
     private static WebSocketRouter instance;
 
     private WebSocket websocket;
-    private bool sentUUID = false;
+
+    private string name = "Player";
+
+    public TextMeshProUGUI text;
 
     void Awake() {
         if (instance == null) {
@@ -74,10 +78,6 @@ public class WebSocketRouter : MonoBehaviour
 
     void Update() {
         websocket?.DispatchMessageQueue();
-        if (!sentUUID) {
-            Invoke("sendUUID", 1);
-            sentUUID = true;
-        }
     }
 
     public void HandleMessage(string message) {
@@ -88,13 +88,13 @@ public class WebSocketRouter : MonoBehaviour
                 RouteToScene(sceneName);
             }
         }
-        
     }
 
 
-    void sendUUID() {
+    public void sendUUID() {
         string uuid = PlayerPrefs.GetString("DeviceUUID");
-        SendInput($"uuid {uuid}");
+        name = text.text;
+        SendInput($"uuid {uuid} {name}");
     }
 
     public async void SendInput(string action) {

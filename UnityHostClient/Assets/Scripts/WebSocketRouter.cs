@@ -16,6 +16,7 @@ public class WebSocketRouter : MonoBehaviour
     private bool sentHost = false;
 
     public Dictionary<int, string> connectedIDs = new Dictionary<int, string>();
+    public Dictionary<int, string> connectedNames = new Dictionary<int, string>();
     public Dictionary<int, int> scores = new Dictionary<int, int>();
 
     private TextMeshProUGUI scoreText;
@@ -90,7 +91,7 @@ public class WebSocketRouter : MonoBehaviour
         } else {
             scoreText.text = "";
             foreach (var entry in scores) {
-                scoreText.text += $"ID: {entry.Key}, Score: {entry.Value}\n";
+                scoreText.text += $"Name: {connectedNames[entry.Key]} Score: {entry.Value}\n";
             }
         }
     }
@@ -98,13 +99,14 @@ public class WebSocketRouter : MonoBehaviour
     void HandleMessage(string message) {
         if(message.StartsWith("Connected ")) {
             string[] parts = message.Substring(10).Split(' ');
-            if(parts.Length == 2) {
+            if(parts.Length == 3) {
                 int id = int.Parse(parts[0]);
                 string uuid = parts[1];  
+                string name = parts[2];
                 connectedIDs[id] = uuid;
                 scores[id] = 0;
+                connectedNames[id] = name;
                 Debug.Log($"Connected ID: {id}, UUID: {uuid}");
-                // RouteToScene("TeamTanks");
             }
             Debug.Log("HERE");
         }
