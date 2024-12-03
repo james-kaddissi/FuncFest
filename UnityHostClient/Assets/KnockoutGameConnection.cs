@@ -7,6 +7,7 @@ public class KnockoutGameConnection : MonoBehaviour
 {
     private WebSocketRouter webSocketRouter;
     public TextMeshProUGUI countdownText;
+    private bool isWaitingForPlayerToStop = false;
 
     void Start() {
         webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
@@ -32,6 +33,25 @@ public class KnockoutGameConnection : MonoBehaviour
 
     void Launch() {
         GameObject.Find("Player1").GetComponent<KnockoutController>().Launch();
+        Invoke("CheckSpeed", 2f);
+    }
+
+    void CheckSpeed() {
+        StartCoroutine(WaitForPlayerToStop());
+    }
+
+    private IEnumerator WaitForPlayerToStop()
+    {
+        isWaitingForPlayerToStop = true;
+
+        while (GameObject.Find("Player1").GetComponent<Rigidbody2D>().velocity.sqrMagnitude > 0.01f)
+        {
+            yield return null;
+        }
+
+        isWaitingForPlayerToStop = false; 
+
+        StartCountdown(10f);
     }
 
     public void ProcessMessage(string message) {

@@ -2,11 +2,23 @@ import asyncio
 import websockets
 import threading
 import socket
+import time
 
 player_id_counter = 1
 uuid_id_map = {}
 
 last_messages = {}
+
+def broadcast_ip():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+    server_ip = get_ip_address()
+    message = f"Server IP: {server_ip}"
+
+    while True:
+        sock.sendto(message.encode(), ('<broadcast>', 6788))
+        time.sleep(1)
 
 async def echo(websocket, path):
     global player_id_counter
@@ -80,3 +92,5 @@ if __name__ == "__main__":
     connected_clients = {}
     server_thread = threading.Thread(target=asyncio.run, args=(start_server(),))
     server_thread.start()
+    broadcast_thread = threading.Thread(target=broadcast_ip)
+    broadcast_thread.start()

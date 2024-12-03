@@ -30,6 +30,9 @@ public class KnockoutController : MonoBehaviour
         } else {
             spriteRenderer.sprite = closedSprite;
         }
+        if(GetComponent<Rigidbody2D>().velocity.magnitude <= 0.01f) {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
     }
 
     public void UpdateInput(Vector2 input)
