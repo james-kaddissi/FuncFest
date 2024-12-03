@@ -6,10 +6,14 @@ using UnityEngine.SceneManagement;
 using System.Reflection;
 using System.Net;
 using System.Net.Sockets;
+using System;
 using TMPro;
 
 public class WebSocketRouter : MonoBehaviour
 {
+    private UdpClient udpListener;
+    private string serverIP = "";
+
     private static WebSocketRouter instance;
 
     private WebSocket websocket;
@@ -18,6 +22,8 @@ public class WebSocketRouter : MonoBehaviour
 
     public TextMeshProUGUI text;
 
+    private bool serverDetected = false;
+
     void Awake() {
         if (instance == null) {
             instance = this;
@@ -25,27 +31,36 @@ public class WebSocketRouter : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
+        udpListener = new UdpClient(6788);
+        udpListener.BeginReceive(OnUdpDataReceived, null);
+    }
+
+    private void OnUdpDataReceived(IAsyncResult result)
+    {
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 6788);
+        byte[] data = udpListener.EndReceive(result, ref endPoint);
+        string message = System.Text.Encoding.UTF8.GetString(data);
+        if (message.StartsWith("Server IP: "))
+        {
+            serverIP = message.Substring(11); 
+            Debug.Log($"Received server IP: {serverIP}");
+            if (!serverDetected) {
+                serverDetected = true;
+                StartConnect();
+            }
+        }
+
+        udpListener.BeginReceive(OnUdpDataReceived, null);
     }
 
     string GetIPAddress() {
-        string localIP = "";
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-
-        foreach (var ip in host.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-            {
-                localIP = ip.ToString();
-                break;
-            }
-        }
-        
-        return localIP;
+        return serverIP;
     }
 
-    async void Start() {
+    async void StartConnect() {
         string ip = GetIPAddress();
         websocket = new WebSocket($"ws://{ip}:6789");
+        Debug.Log($"Connecting to {ip}:6789");
 
         websocket.OnOpen += () => {
             Debug.Log("Connection open!");
