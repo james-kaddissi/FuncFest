@@ -16,7 +16,7 @@ public class UUIDManager : MonoBehaviour
             PlayerPrefs.SetString(UUIDKey, uuid);
         } else {
             uuid = PlayerPrefs.GetString(UUIDKey, string.Empty);
-            if (string.IsNullOrEmpty(uuid))
+            if (string.IsNullOrEmpty(uuid) || uuid.StartsWith("TestUUID"))
             {
                 uuid = System.Guid.NewGuid().ToString();
                 PlayerPrefs.SetString(UUIDKey, uuid);

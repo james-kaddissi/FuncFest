@@ -18,9 +18,9 @@ public class WebSocketRouter : MonoBehaviour
 
     private WebSocket websocket;
 
-    private string name = "Player";
+    private string playername = "Player";
 
-    public TextMeshProUGUI text;
+    public TMP_InputField textInput;
 
     private bool serverDetected = false;
 
@@ -33,6 +33,15 @@ public class WebSocketRouter : MonoBehaviour
         }
         udpListener = new UdpClient(6788);
         udpListener.BeginReceive(OnUdpDataReceived, null);
+    }
+
+    void Start() {
+        string defaultName = PlayerPrefs.GetString("Name");
+        if (defaultName != null) {
+            textInput.text = defaultName;
+            playername = defaultName;
+        }
+        Debug.Log("default name: " + defaultName);
     }
 
     private void OnUdpDataReceived(IAsyncResult result)
@@ -108,8 +117,9 @@ public class WebSocketRouter : MonoBehaviour
 
     public void sendUUID() {
         string uuid = PlayerPrefs.GetString("DeviceUUID");
-        name = text.text;
-        SendInput($"uuid {uuid} {name}");
+        playername = textInput.text;
+        PlayerPrefs.SetString("Name", playername);
+        SendInput($"uuid {uuid} {playername}");
     }
 
     public async void SendInput(string action) {
