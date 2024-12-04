@@ -23,6 +23,27 @@ public class WebSocketRouter : MonoBehaviour
     public TMP_InputField textInput;
 
     private bool serverDetected = false;
+    private bool readyToConnect = false;
+    private bool sentName = false;
+    
+    private enum ConnectionState {
+        NoConnection,
+        CellularConnection,
+        WiFiConnection,
+        JoinGame,
+        Waiting,
+        InGames
+    }
+
+    private ConnectionState connectionState;
+
+    public GameObject noConnectionScreen;
+    public GameObject cellularConnectionScreen;
+    public GameObject wifiConnectionScreen;
+    public GameObject joinGameScreen;
+    public GameObject waitingScreen;
+
+    private bool inGame = false;
 
     void Awake() {
         if (instance == null) {
@@ -42,6 +63,7 @@ public class WebSocketRouter : MonoBehaviour
             playername = defaultName;
         }
         Debug.Log("default name: " + defaultName);
+        CheckConnectionType();
     }
 
     private void OnUdpDataReceived(IAsyncResult result)
@@ -53,7 +75,7 @@ public class WebSocketRouter : MonoBehaviour
         {
             serverIP = message.Substring(11); 
             Debug.Log($"Received server IP: {serverIP}");
-            if (!serverDetected) {
+            if (!readyToConnect) {
                 serverDetected = true;
                 StartConnect();
             }
@@ -66,6 +88,36 @@ public class WebSocketRouter : MonoBehaviour
         return serverIP;
     }
 
+    void CheckConnectionType()
+    {
+        if(inGame) {
+            connectionState = ConnectionState.InGames;
+            return;
+        }
+        NetworkReachability reachability = Application.internetReachability;
+
+        if (reachability == NetworkReachability.NotReachable)
+        {
+            connectionState = ConnectionState.NoConnection;
+        }
+        else if (reachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+        {
+            connectionState = ConnectionState.CellularConnection;
+        }
+        else if (reachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+        {
+            if(sentName){
+                connectionState = ConnectionState.Waiting;
+                return;
+            }
+            if(readyToConnect){
+                connectionState = ConnectionState.JoinGame;
+            } else {
+                connectionState = ConnectionState.WiFiConnection;
+            }
+        }
+    }
+
     async void StartConnect() {
         string ip = GetIPAddress();
         websocket = new WebSocket($"ws://{ip}:6789");
@@ -73,6 +125,7 @@ public class WebSocketRouter : MonoBehaviour
 
         websocket.OnOpen += () => {
             Debug.Log("Connection open!");
+            readyToConnect = true;
         };
 
         websocket.OnError += (e) => {
@@ -102,6 +155,46 @@ public class WebSocketRouter : MonoBehaviour
 
     void Update() {
         websocket?.DispatchMessageQueue();
+        switch(connectionState) {
+            case ConnectionState.NoConnection:
+                noConnectionScreen.SetActive(true);
+                cellularConnectionScreen.SetActive(false);
+                wifiConnectionScreen.SetActive(false);
+                joinGameScreen.SetActive(false);
+                waitingScreen.SetActive(false);
+                break;
+            case ConnectionState.CellularConnection:
+                noConnectionScreen.SetActive(false);
+                cellularConnectionScreen.SetActive(true);
+                wifiConnectionScreen.SetActive(false);
+                joinGameScreen.SetActive(false);
+                waitingScreen.SetActive(false);
+                break;
+            case ConnectionState.WiFiConnection:
+                noConnectionScreen.SetActive(false);
+                cellularConnectionScreen.SetActive(false);
+                wifiConnectionScreen.SetActive(true);
+                joinGameScreen.SetActive(false);
+                waitingScreen.SetActive(false);
+                break;
+            case ConnectionState.JoinGame:
+                noConnectionScreen.SetActive(false);
+                cellularConnectionScreen.SetActive(false);
+                wifiConnectionScreen.SetActive(false);
+                joinGameScreen.SetActive(true);
+                waitingScreen.SetActive(false);
+                break;
+            case ConnectionState.Waiting:
+                noConnectionScreen.SetActive(false);
+                cellularConnectionScreen.SetActive(false);
+                wifiConnectionScreen.SetActive(false);
+                joinGameScreen.SetActive(false);
+                waitingScreen.SetActive(true);
+                break;
+            case ConnectionState.InGames:
+                break;
+        }
+        CheckConnectionType();
     }
 
     public void HandleMessage(string message) {
@@ -120,6 +213,7 @@ public class WebSocketRouter : MonoBehaviour
         playername = textInput.text;
         PlayerPrefs.SetString("Name", playername);
         SendInput($"uuid {uuid} {playername}");
+        sentName = true;
     }
 
     public async void SendInput(string action) {
@@ -129,6 +223,7 @@ public class WebSocketRouter : MonoBehaviour
     }
 
     public void RouteToScene(string scene) {
+        inGame = true;
         SceneManager.LoadScene(scene);
     }
 }
