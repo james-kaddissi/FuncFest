@@ -44,7 +44,7 @@ public class KnockoutGameConnection : MonoBehaviour
     {
         isWaitingForPlayerToStop = true;
 
-        while (GameObject.Find("Player1").GetComponent<Rigidbody2D>().velocity.sqrMagnitude > 0.01f)
+        while (GameObject.Find("Player1").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f)
         {
             yield return null;
         }

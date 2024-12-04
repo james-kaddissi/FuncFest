@@ -15,9 +15,15 @@ public class KnockoutController : MonoBehaviour
     public Sprite closedSprite;
     public Sprite openSprite;
 
+    public SpriteRenderer waterRenderer;
+    public Sprite frame1;
+    public Sprite frame2;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        waterRenderer = GameObject.Find("Water").GetComponent<SpriteRenderer>();
+        SwapFrame();
     }
 
     private void Update() {
@@ -30,9 +36,19 @@ public class KnockoutController : MonoBehaviour
         } else {
             spriteRenderer.sprite = closedSprite;
         }
-        if(GetComponent<Rigidbody2D>().velocity.magnitude <= 0.01f) {
+        if(GetComponent<Rigidbody2D>().velocity.magnitude <= 0.1f) {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
+
+    }
+
+    void SwapFrame() {
+        if(waterRenderer.sprite == frame1) {
+            waterRenderer.sprite = frame2;
+        } else {
+            waterRenderer.sprite = frame1;
+        }
+        Invoke("SwapFrame", 0.5f);
     }
 
     public void UpdateInput(Vector2 input)
