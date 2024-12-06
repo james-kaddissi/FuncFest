@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public class KnockoutGameConnection : MonoBehaviour
 {
@@ -9,10 +10,78 @@ public class KnockoutGameConnection : MonoBehaviour
     public TextMeshProUGUI countdownText;
     private bool isWaitingForPlayerToStop = false;
 
+    public Tilemap tilemap;
+    public RuleTile iceTile;
+    public RuleTile waterTile;
+    private List<Vector3Int> iceTilePositions = new List<Vector3Int>();
+
+
     void Start() {
         webSocketRouter = GameObject.Find("WebSocketRouter").GetComponent<WebSocketRouter>();
         StartCountdown(10f);
+        StartCoroutine(RandomlyReplace());
     }
+
+    private IEnumerator RandomlyReplace() {
+        while(true)
+        {
+            iceTilePositions.Clear();
+            foreach(var position in tilemap.cellBounds.allPositionsWithin)
+            {
+                if(tilemap.HasTile(position) && tilemap.GetTile(position) == iceTile)
+                {
+                    int neighbors = IsEligibleForReplacement(position);
+                    if (neighbors < 8)
+                    {
+                        float chance = 1f/(neighbors+1);
+                        if(Random.value <= chance)
+                        {
+                            iceTilePositions.Add(position);
+                        }
+                    }
+                }
+            }
+            if(iceTilePositions.Count > 0)
+            {
+                Vector3Int randomPosition = iceTilePositions[Random.Range(0, iceTilePositions.Count)];
+                tilemap.SetTile(randomPosition, waterTile);
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private int IsEligibleForReplacement(Vector3Int position)
+    {
+        int neighboringTileCount = 0;
+
+        foreach (Vector3Int direction in GetNeighborDirections())
+        {
+            Vector3Int neighborPosition = position + direction;
+            if (tilemap.HasTile(neighborPosition) && tilemap.GetTile(neighborPosition) == iceTile)
+            {
+                neighboringTileCount++;
+            }
+        }
+
+        return neighboringTileCount;
+    }
+
+    private List<Vector3Int> GetNeighborDirections()
+    {
+        return new List<Vector3Int>
+        {
+            new Vector3Int(1, 0, 0), 
+            new Vector3Int(-1, 0, 0), 
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(0, -1, 0), 
+            new Vector3Int(1, 1, 0), 
+            new Vector3Int(-1, 1, 0), 
+            new Vector3Int(1, -1, 0), 
+            new Vector3Int(-1, -1, 0) 
+        };
+    }
+
 
     public void StartCountdown(float time) {
         StartCoroutine(Countdown(time));

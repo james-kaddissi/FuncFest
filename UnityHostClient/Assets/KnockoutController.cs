@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class KnockoutController : MonoBehaviour
 {
@@ -15,15 +16,15 @@ public class KnockoutController : MonoBehaviour
     public Sprite closedSprite;
     public Sprite openSprite;
 
-    public SpriteRenderer waterRenderer;
-    public Sprite frame1;
-    public Sprite frame2;
+    public Tilemap tilemap;
+    public RuleTile waterTile;
+    private CircleCollider2D circleCollider;
+
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        waterRenderer = GameObject.Find("Water").GetComponent<SpriteRenderer>();
-        SwapFrame();
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     private void Update() {
@@ -39,16 +40,19 @@ public class KnockoutController : MonoBehaviour
         if(GetComponent<Rigidbody2D>().velocity.magnitude <= 0.1f) {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
-
+        DetectCollision();
     }
 
-    void SwapFrame() {
-        if(waterRenderer.sprite == frame1) {
-            waterRenderer.sprite = frame2;
-        } else {
-            waterRenderer.sprite = frame1;
+    void DetectCollision() {
+        foreach(var position in tilemap.cellBounds.allPositionsWithin) {
+            if(tilemap.HasTile(position) && tilemap.GetTile(position) == waterTile) {
+                float distance = Vector3.Distance(circleCollider.transform.position, tilemap.CellToWorld(position));
+                if(distance < circleCollider.radius) {
+                    Debug.Log("Collision detected");
+                    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                }
+            }
         }
-        Invoke("SwapFrame", 0.5f);
     }
 
     public void UpdateInput(Vector2 input)
