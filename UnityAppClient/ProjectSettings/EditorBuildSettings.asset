@@ -39,4 +39,5 @@ EditorBuildSettings:
     path: Assets/Scenes/KnockoutController.unity
     guid: d7ebfd27e5c8f8f449d30ba0b6473218
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: a4708eb90822c413f944f5ff8ac68b82, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ad86748a8a4454a13bf6d57bbfddbaac, type: 2}
