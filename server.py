@@ -15,9 +15,13 @@ def broadcast_ip():
 
     server_ip = get_ip_address()
     message = f"Server IP: {server_ip}"
+    parts = server_ip.split(".")
+    parts[-1] = "255"
+    broadcast_ip = ".".join(parts)
 
     while True:
-        sock.sendto(message.encode(), ('<broadcast>', 6788))
+        sock.sendto(message.encode(), (broadcast_ip, 6788))
+        print(f"Broadcasted server IP: {server_ip}")
         time.sleep(1)
 
 async def echo(websocket, path):
