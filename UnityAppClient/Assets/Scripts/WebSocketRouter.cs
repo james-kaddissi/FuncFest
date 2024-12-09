@@ -25,6 +25,9 @@ public class WebSocketRouter : MonoBehaviour
     private bool serverDetected = false;
     private bool readyToConnect = false;
     private bool sentName = false;
+
+    public bool gameEnabled = false;
+    public GameObject firstButton;
     
     private enum ConnectionState {
         NoConnection,
@@ -52,8 +55,14 @@ public class WebSocketRouter : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
-        udpListener = new UdpClient(6788);
-        udpListener.BeginReceive(OnUdpDataReceived, null);
+        try {
+            udpListener = new UdpClient(6788);
+            udpListener.BeginReceive(OnUdpDataReceived, null);
+            Debug.Log("UDP Listener successfully started on port 6788.");
+        }
+        catch (Exception ex) {
+            Debug.LogError($"Failed to start UDP Listener on port 6788: {ex.Message}");
+        }
     }
 
     void Start() {
@@ -66,22 +75,43 @@ public class WebSocketRouter : MonoBehaviour
         CheckConnectionType();
     }
 
+    public void EnableGame() {
+        gameEnabled = true;
+        firstButton.SetActive(false);
+    }
+
     private void OnUdpDataReceived(IAsyncResult result)
     {
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 6788);
-        byte[] data = udpListener.EndReceive(result, ref endPoint);
-        string message = System.Text.Encoding.UTF8.GetString(data);
-        if (message.StartsWith("Server IP: "))
-        {
-            serverIP = message.Substring(11); 
-            Debug.Log($"Received server IP: {serverIP}");
-            if (!readyToConnect) {
-                serverDetected = true;
-                StartConnect();
+        try {
+            Debug.Log("Received UDP data");
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 6788);
+            byte[] data = udpListener.EndReceive(result, ref endPoint);
+            string message = System.Text.Encoding.UTF8.GetString(data);
+            if (message.StartsWith("Server IP: "))
+            {
+                serverIP = message.Substring(11); 
+                Debug.Log($"Received server IP: {serverIP}");
+                if (!readyToConnect) {
+                    serverDetected = true;
+                    StartConnect();
+                }
             }
         }
-
-        udpListener.BeginReceive(OnUdpDataReceived, null);
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error in OnUdpDataReceived: {ex.Message}");
+        }
+        finally
+        {
+            try
+            {
+                udpListener.BeginReceive(OnUdpDataReceived, null);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error restarting UDP listener: {ex.Message}");
+            }
+        }
     }
 
     string GetIPAddress() {
@@ -155,44 +185,47 @@ public class WebSocketRouter : MonoBehaviour
 
     void Update() {
         websocket?.DispatchMessageQueue();
-        switch(connectionState) {
-            case ConnectionState.NoConnection:
-                noConnectionScreen.SetActive(true);
-                cellularConnectionScreen.SetActive(false);
-                wifiConnectionScreen.SetActive(false);
-                joinGameScreen.SetActive(false);
-                waitingScreen.SetActive(false);
-                break;
-            case ConnectionState.CellularConnection:
-                noConnectionScreen.SetActive(false);
-                cellularConnectionScreen.SetActive(true);
-                wifiConnectionScreen.SetActive(false);
-                joinGameScreen.SetActive(false);
-                waitingScreen.SetActive(false);
-                break;
-            case ConnectionState.WiFiConnection:
-                noConnectionScreen.SetActive(false);
-                cellularConnectionScreen.SetActive(false);
-                wifiConnectionScreen.SetActive(true);
-                joinGameScreen.SetActive(false);
-                waitingScreen.SetActive(false);
-                break;
-            case ConnectionState.JoinGame:
-                noConnectionScreen.SetActive(false);
-                cellularConnectionScreen.SetActive(false);
-                wifiConnectionScreen.SetActive(false);
-                joinGameScreen.SetActive(true);
-                waitingScreen.SetActive(false);
-                break;
-            case ConnectionState.Waiting:
-                noConnectionScreen.SetActive(false);
-                cellularConnectionScreen.SetActive(false);
-                wifiConnectionScreen.SetActive(false);
-                joinGameScreen.SetActive(false);
-                waitingScreen.SetActive(true);
-                break;
-            case ConnectionState.InGames:
-                break;
+        if (gameEnabled) {
+            switch(connectionState) {
+                case ConnectionState.NoConnection:
+                    noConnectionScreen.SetActive(true);
+                    cellularConnectionScreen.SetActive(false);
+                    wifiConnectionScreen.SetActive(false);
+                    joinGameScreen.SetActive(false);
+                    waitingScreen.SetActive(false);
+                    break;
+                case ConnectionState.CellularConnection:
+                    noConnectionScreen.SetActive(false);
+                    cellularConnectionScreen.SetActive(true);
+                    wifiConnectionScreen.SetActive(false);
+                    joinGameScreen.SetActive(false);
+                    waitingScreen.SetActive(false);
+                    break;
+                case ConnectionState.WiFiConnection:
+                    noConnectionScreen.SetActive(false);
+                    cellularConnectionScreen.SetActive(false);
+                    wifiConnectionScreen.SetActive(true);
+                    joinGameScreen.SetActive(false);
+                    waitingScreen.SetActive(false);
+                    //udpListener.BeginReceive(OnUdpDataReceived, null);
+                    break;
+                case ConnectionState.JoinGame:
+                    noConnectionScreen.SetActive(false);
+                    cellularConnectionScreen.SetActive(false);
+                    wifiConnectionScreen.SetActive(false);
+                    joinGameScreen.SetActive(true);
+                    waitingScreen.SetActive(false);
+                    break;
+                case ConnectionState.Waiting:
+                    noConnectionScreen.SetActive(false);
+                    cellularConnectionScreen.SetActive(false);
+                    wifiConnectionScreen.SetActive(false);
+                    joinGameScreen.SetActive(false);
+                    waitingScreen.SetActive(true);
+                    break;
+                case ConnectionState.InGames:
+                    break;
+            }
         }
         CheckConnectionType();
     }
@@ -225,5 +258,21 @@ public class WebSocketRouter : MonoBehaviour
     public void RouteToScene(string scene) {
         inGame = true;
         SceneManager.LoadScene(scene);
+    }
+    void OnDestroy() {
+        if (udpListener != null) {
+            try {
+                udpListener.Close();
+                Debug.Log("UDP Listener closed successfully.");
+            }
+            catch (Exception ex) {
+                Debug.LogError($"Error closing UDP Listener: {ex.Message}");
+            }
+        }
+    }
+
+    void OnApplicationQuit() {
+        // Ensure cleanup when application quits
+        OnDestroy();
     }
 }
