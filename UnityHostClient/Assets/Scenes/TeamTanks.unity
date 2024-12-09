@@ -1079,6 +1079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
+  rotationSpeed: 0
   forwardBeam: {fileID: 868790}
   reverseBeam: {fileID: 113258610}
 --- !u!114 &86043010
@@ -5194,6 +5195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
+  rotationSpeed: 0
   forwardBeam: {fileID: 218280173}
   reverseBeam: {fileID: 1919280669}
 --- !u!114 &632397016
@@ -5635,6 +5637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
+  rotationSpeed: 0
   forwardBeam: {fileID: 419248339}
   reverseBeam: {fileID: 843049279}
 --- !u!114 &678247714
@@ -9735,6 +9738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
+  rotationSpeed: 0
   forwardBeam: {fileID: 1815950755}
   reverseBeam: {fileID: 2031673819}
 --- !u!114 &1252477546

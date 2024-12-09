@@ -1,0 +1,738 @@
+fileFormatVersion: 2
+guid: 8ab86587029f125448641d9c5059b514
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_0
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 685
+        width: 144
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72a217cc5f725ae479e390f53e746a5c
+      internalID: -940217522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_1
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 670
+        width: 117
+        height: 186
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2be498800a1fecc4186236fb3b335143
+      internalID: 1445996020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_2
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 720
+        width: 138
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9e8207b275fa31499b114f214f00966
+      internalID: -390145569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_3
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 712
+        width: 117
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cebdab5d849b3c94c9a9386c7f8e7dc4
+      internalID: 857845679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_4
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 692
+        width: 117
+        height: 228
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65050ef6facc25c4baad39905f285b38
+      internalID: 546816235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_5
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 687
+        width: 170
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f0fb3116824b8443a2ed2adaa352a1c
+      internalID: 753091262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_6
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 463
+        width: 114
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6797ee4da0111f40b9952187200c7be
+      internalID: 887397829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_7
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 442
+        width: 139
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0151af903e85ca9478a27138dd6c5961
+      internalID: -2086728819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_8
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 478
+        width: 95
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70da910fda116264aaead0e128880b22
+      internalID: -2102746938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_9
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 464
+        width: 88
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3a7283d561d817488cb18d952306966
+      internalID: -718467247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_10
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 532
+        width: 84
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53b9c8c1533b06d4995edeab0432a2d0
+      internalID: 1924574729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_11
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 448
+        width: 126
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 445df965ba89fb24daa599c4a904c572
+      internalID: 1859827964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_12
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 492
+        width: 157
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4912eff4ceafc0409189b28954f6d8b
+      internalID: 1635099466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_13
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 221
+        width: 137
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7d86079e05ffc9498b53c6c4369b031
+      internalID: 933079555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_14
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 283
+        width: 84
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f946b0deb96c174898f2242bbc8c49e
+      internalID: 544233518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_15
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 283
+        width: 103
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff05a80e226e5b141b7b8c5ef4b0ae0e
+      internalID: 1028864627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_16
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 315
+        width: 113
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: def48ade257ce4c439b1c1affae48d9b
+      internalID: -1848710349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_17
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 279
+        width: 159
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77c77d7376c569a48bd226f035f273ff
+      internalID: -1723023833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_18
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 224
+        width: 139
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0780c639381f4b344990909b4a42fe67
+      internalID: 1370327427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_19
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 274
+        width: 112
+        height: 194
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4a56560cc11c3a4981225babb47653a
+      internalID: 702269448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_20
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 73
+        width: 144
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4c5926a246c4c54b8f4194d9c9dd50c
+      internalID: 1379117597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_21
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 60
+        width: 157
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce5d51bc443564b49b8164b09fc525ee
+      internalID: 1963875860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_22
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 135
+        width: 138
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d0ccba0a910d0c4ea75dd07bd7ef728
+      internalID: -705409876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_23
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 76
+        width: 146
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c486fa43b28ed64e9485c8592561395
+      internalID: -266785487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_24
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 40
+        width: 94
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49520e3db22f53544baa9de80ca1f745
+      internalID: -1185445717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: burn-book-letters-png-full-hd-png-52163-2701788926_25
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 75
+        width: 112
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df303064b007d2d4a8687279800fa11c
+      internalID: -1153577944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      burn-book-letters-png-full-hd-png-52163-2701788926_0: -940217522
+      burn-book-letters-png-full-hd-png-52163-2701788926_1: 1445996020
+      burn-book-letters-png-full-hd-png-52163-2701788926_10: 1924574729
+      burn-book-letters-png-full-hd-png-52163-2701788926_11: 1859827964
+      burn-book-letters-png-full-hd-png-52163-2701788926_12: 1635099466
+      burn-book-letters-png-full-hd-png-52163-2701788926_13: 933079555
+      burn-book-letters-png-full-hd-png-52163-2701788926_14: 544233518
+      burn-book-letters-png-full-hd-png-52163-2701788926_15: 1028864627
+      burn-book-letters-png-full-hd-png-52163-2701788926_16: -1848710349
+      burn-book-letters-png-full-hd-png-52163-2701788926_17: -1723023833
+      burn-book-letters-png-full-hd-png-52163-2701788926_18: 1370327427
+      burn-book-letters-png-full-hd-png-52163-2701788926_19: 702269448
+      burn-book-letters-png-full-hd-png-52163-2701788926_2: -390145569
+      burn-book-letters-png-full-hd-png-52163-2701788926_20: 1379117597
+      burn-book-letters-png-full-hd-png-52163-2701788926_21: 1963875860
+      burn-book-letters-png-full-hd-png-52163-2701788926_22: -705409876
+      burn-book-letters-png-full-hd-png-52163-2701788926_23: -266785487
+      burn-book-letters-png-full-hd-png-52163-2701788926_24: -1185445717
+      burn-book-letters-png-full-hd-png-52163-2701788926_25: -1153577944
+      burn-book-letters-png-full-hd-png-52163-2701788926_3: 857845679
+      burn-book-letters-png-full-hd-png-52163-2701788926_4: 546816235
+      burn-book-letters-png-full-hd-png-52163-2701788926_5: 753091262
+      burn-book-letters-png-full-hd-png-52163-2701788926_6: 887397829
+      burn-book-letters-png-full-hd-png-52163-2701788926_7: -2086728819
+      burn-book-letters-png-full-hd-png-52163-2701788926_8: -2102746938
+      burn-book-letters-png-full-hd-png-52163-2701788926_9: -718467247
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

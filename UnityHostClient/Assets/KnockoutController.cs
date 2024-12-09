@@ -19,6 +19,7 @@ public class KnockoutController : MonoBehaviour
     public Tilemap tilemap;
     public RuleTile waterTile;
     private CircleCollider2D circleCollider;
+    public int thisone;
 
 
     void Start()
@@ -50,6 +51,8 @@ public class KnockoutController : MonoBehaviour
                 if(distance < circleCollider.radius) {
                     Debug.Log("Collision detected");
                     GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    transform.localScale = new Vector3(0.01f, 0.1f, 1f);
+                    GameObject.Find("KnockoutGameConnection").GetComponent<KnockoutGameConnection>().PlayerDied(thisone);
                 }
             }
         }
@@ -93,7 +96,7 @@ public class KnockoutController : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = aimDirection.normalized * aimPower;
+            rb.velocity = aimDirection.normalized * aimPower * 0.2f;
             wasLaunched = true;
         }
     }

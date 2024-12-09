@@ -47,7 +47,7 @@ public class KnockoutGameConnection : MonoBehaviour
                 tilemap.SetTile(randomPosition, waterTile);
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -102,6 +102,13 @@ public class KnockoutGameConnection : MonoBehaviour
 
     void Launch() {
         GameObject.Find("Player1").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player2").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player3").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player4").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player5").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player6").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player7").GetComponent<KnockoutController>().Launch();
+        GameObject.Find("Player8").GetComponent<KnockoutController>().Launch();
         Invoke("CheckSpeed", 2f);
     }
 
@@ -113,7 +120,7 @@ public class KnockoutGameConnection : MonoBehaviour
     {
         isWaitingForPlayerToStop = true;
 
-        while (GameObject.Find("Player1").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f)
+        while (GameObject.Find("Player1").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player2").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player3").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player4").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player5").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player6").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player7").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f && GameObject.Find("Player8").GetComponent<Rigidbody2D>().velocity.magnitude > 0.1f)
         {
             yield return null;
         }
@@ -121,6 +128,24 @@ public class KnockoutGameConnection : MonoBehaviour
         isWaitingForPlayerToStop = false; 
 
         StartCountdown(10f);
+    }
+    private int count = 0;
+    public void PlayerDied(int player) {
+        count++;
+        webSocketRouter.AddScore(player, count);
+    }
+
+    void Update() {
+        if (count == 7)
+        {
+            GameObject.Find("EndText").GetComponent<TextMeshProUGUI>().text = "Game Over!";
+            Invoke("RouteHome", 5f);
+        }
+
+    }
+
+    void RouteHome() {
+        webSocketRouter.RouteToScene("Home");
     }
 
     public void ProcessMessage(string message) {

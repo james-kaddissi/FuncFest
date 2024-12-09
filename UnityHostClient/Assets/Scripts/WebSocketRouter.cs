@@ -20,6 +20,18 @@ public class WebSocketRouter : MonoBehaviour
     public Dictionary<int, int> scores = new Dictionary<int, int>();
 
     private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI sideScore;
+
+    public bool selectingGame = false;
+    public bool gameStarted = false;
+    public GameObject EntryPrefab;
+    public GameObject buttons;
+
+    public void EnableGame() {
+        gameStarted = true;
+        selectingGame = true;
+        EntryPrefab.SetActive(false);
+    }
 
     void Awake() {
         if (instance == null) {
@@ -85,13 +97,28 @@ public class WebSocketRouter : MonoBehaviour
             Invoke("sendHost", 1);
             sentHost = true;
         }
-
-        if (scoreText == null) {
-            scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
-        } else {
-            scoreText.text = "";
-            foreach (var entry in scores) {
-                scoreText.text += $"Name: {connectedNames[entry.Key]} Score: {entry.Value}\n";
+        if(gameStarted) {
+            if(buttons != null) {
+                buttons.SetActive(true);
+            }
+        }
+        if (gameStarted && !selectingGame) {
+            if (scoreText == null) {
+                scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+            } else {
+                scoreText.text = "";
+                foreach (var entry in scores) {
+                    scoreText.text += $"{connectedNames[entry.Key]}\n";
+                }
+            }
+        }
+        if(selectingGame) {
+            sideScore = GameObject.Find("SideScore")?.GetComponent<TextMeshProUGUI>();
+            if(sideScore != null) {
+                sideScore.text = "";
+                foreach (var entry in scores) {
+                    sideScore.text += $"{connectedNames[entry.Key]}: {entry.Value}\n";
+                }
             }
         }
     }
