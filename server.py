@@ -3,11 +3,15 @@ import websockets
 import threading
 import socket
 import time
-
+import ipaddress
 player_id_counter = 1
 uuid_id_map = {}
 
 last_messages = {}
+
+def calculate_broadcast_ip(ip, subnet_mask):
+    network = ipaddress.IPv4Network(f'{ip}/{subnet_mask}', strict=False)
+    return str(network.broadcast_address)
 
 def broadcast_ip():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -16,8 +20,12 @@ def broadcast_ip():
     server_ip = get_ip_address()
     message = f"Server IP: {server_ip}"
     parts = server_ip.split(".")
-    parts[-1] = "255"
-    broadcast_ip = ".".join(parts)
+    # parts[2] = "127"
+    # parts[3] = "255"
+    # broadcast_ip = ".".join(parts)
+    server_ip = "10.156.122.1"
+    subnet_mask = "255.255.224.0"
+    broadcast_ip = calculate_broadcast_ip(server_ip, subnet_mask)
 
     while True:
         sock.sendto(message.encode(), (broadcast_ip, 6788))
