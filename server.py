@@ -3,25 +3,61 @@ import websockets
 import threading
 import socket
 import time
+import ipaddress
+import netifaces
 
 player_id_counter = 1
 uuid_id_map = {}
-
 last_messages = {}
+connected_clients = {}
 
-def broadcast_ip():
+def calculate_broadcast_ip(ip, subnet_mask):
+    network = ipaddress.IPv4Network(f'{ip}/{subnet_mask}', strict=False)
+    return str(network.broadcast_address)
+
+def get_default_interface():
+    gateways = netifaces.gateways()
+    default_gateway = gateways.get('default')
+    if default_gateway:
+        # Typically, the default gateway for IPv4 is at index 0
+        interface = default_gateway[netifaces.AF_INET][1]
+        return interface
+    else:
+        raise Exception("No default gateway found.")
+
+def get_subnet_mask(interface):
+    try:
+        return netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['netmask']
+    except (ValueError, KeyError):
+        raise Exception(f"Cannot get subnet mask for interface {interface}")
+
+def get_ip_address(interface):
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # Doesn't have to be reachable
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+    finally:
+        s.close()
+    return ip_address
+
+def broadcast_ip(interface):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-    server_ip = get_ip_address()
+    server_ip = get_ip_address(interface)
+    subnet_mask = get_subnet_mask(interface)
+    broadcast_ip_address = calculate_broadcast_ip(server_ip, subnet_mask)
     message = f"Server IP: {server_ip}"
-    parts = server_ip.split(".")
-    parts[-1] = "255"
-    broadcast_ip = ".".join(parts)
+
+    print(f"Broadcasting on interface: {interface}")
+    print(f"Server IP: {server_ip}")
+    print(f"Subnet Mask: {subnet_mask}")
+    print(f"Broadcast IP: {broadcast_ip_address}")
 
     while True:
-        sock.sendto(message.encode(), (broadcast_ip, 6788))
-        print(f"Broadcasted server IP: {server_ip}")
+        sock.sendto(message.encode(), (broadcast_ip_address, 6788))
+        print(f"Broadcasted server IP: {server_ip} to {broadcast_ip_address}")
         time.sleep(1)
 
 async def echo(websocket, path):
@@ -33,8 +69,12 @@ async def echo(websocket, path):
     try:
         async for message in websocket:
             if message.startswith("uuid "):
-                uuid = message.split(" ")[1]
-                name = message.split(" ")[2]
+                parts = message.split(" ")
+                if len(parts) < 3:
+                    await websocket.send("Invalid UUID message format.")
+                    continue
+                uuid = parts[1]
+                name = parts[2]
                 if uuid in uuid_id_map:
                     player_id = uuid_id_map[uuid]
                 else:
@@ -56,12 +96,10 @@ async def echo(websocket, path):
                 print("Host connected")
             else:
                 if player_id is not None:
-
                     last_message = last_messages.get(player_id)
 
                     if last_message != message:
                         print(f"Received message from Player {player_id}: {message}")
-
                         last_messages[player_id] = message
 
                     await websocket.send(f"ID: {player_id} sent: {message}")
@@ -69,32 +107,39 @@ async def echo(websocket, path):
                         if client != websocket:
                             await client.send(f"Player {player_id} action: {message}")
                 else:
-                    pass
+                    await websocket.send("You are not registered. Please send a UUID.")
     finally:
         if player_id is not None:
             del connected_clients[websocket]
             print(f"Player {player_id} disconnected")
 
-def get_ip_address():
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip_address = s.getsockname()[0]
-    finally:
-        s.close()
-    return ip_address
-
 async def start_server():
-    ip = get_ip_address()
+    interface = get_default_interface()
+    ip = get_ip_address(interface)
     server = await websockets.serve(echo, '0.0.0.0', 6789)
     print(f"WebSocket server started on ws://{ip}:6789")
     await server.wait_closed()
 
-
-
 if __name__ == "__main__":
-    connected_clients = {}
-    server_thread = threading.Thread(target=asyncio.run, args=(start_server(),))
+    try:
+        interface = get_default_interface()
+    except Exception as e:
+        print(f"Error determining default interface: {e}")
+        exit(1)
+
+    server_thread = threading.Thread(target=asyncio.run, args=(start_server(),), daemon=True)
     server_thread.start()
-    broadcast_thread = threading.Thread(target=broadcast_ip)
-    broadcast_thread.start()
+
+    try:
+        broadcast_thread = threading.Thread(target=broadcast_ip, args=(interface,), daemon=True)
+        broadcast_thread.start()
+    except Exception as e:
+        print(f"Error starting broadcast thread: {e}")
+        exit(1)
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Shutting down server...")
+        exit(0)
