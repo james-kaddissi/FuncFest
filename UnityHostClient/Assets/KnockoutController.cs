@@ -21,6 +21,8 @@ public class KnockoutController : MonoBehaviour
     private CircleCollider2D circleCollider;
     public int thisone;
 
+    private bool isAlive = true;
+
 
     void Start()
     {
@@ -48,11 +50,12 @@ public class KnockoutController : MonoBehaviour
         foreach(var position in tilemap.cellBounds.allPositionsWithin) {
             if(tilemap.HasTile(position) && tilemap.GetTile(position) == waterTile) {
                 float distance = Vector3.Distance(circleCollider.transform.position, tilemap.CellToWorld(position));
-                if(distance < circleCollider.radius) {
+                if(distance < circleCollider.radius && isAlive) {
                     Debug.Log("Collision detected");
                     GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     transform.localScale = new Vector3(0.01f, 0.1f, 1f);
                     GameObject.Find("KnockoutGameConnection").GetComponent<KnockoutGameConnection>().PlayerDied(thisone);
+                    isAlive = false;
                 }
             }
         }

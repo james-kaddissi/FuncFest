@@ -155,6 +155,10 @@ public class WebSocketRouter : MonoBehaviour
     }
 
     public void AddScore(int id, int score) {
-        scores[id] += score;
+        if(scores.ContainsKey(id)){
+            scores[id] = score;
+        } else {
+            Debug.Log("Score not found");
+        }
     }
 }
