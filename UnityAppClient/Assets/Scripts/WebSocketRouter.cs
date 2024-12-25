@@ -87,6 +87,7 @@ public class WebSocketRouter : MonoBehaviour
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 6788);
             byte[] data = udpListener.EndReceive(result, ref endPoint);
             string message = System.Text.Encoding.UTF8.GetString(data);
+            Debug.Log(message);
             if (message.StartsWith("Server IP: "))
             {
                 serverIP = message.Substring(11); 
